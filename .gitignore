@@ -1,0 +1,12 @@
+# Generated static site.
+public/
+
+# Disposable Typst compilation workspace.
+.build/
+
+# Installed JavaScript dependencies.
+node_modules/
+
+# Wrangler local state.
+.wrangler/
+

@@ -1,0 +1,16 @@
+{
+  "name": "typst-academic-kb",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A maintainable Typst-first academic knowledge base.",
+  "scripts": {
+    "build": "node scripts/build.mjs && pagefind --site public",
+    "build:site": "node scripts/build.mjs",
+    "preview": "npx wrangler pages dev public",
+    "deploy": "npx wrangler pages deploy public"
+  },
+  "devDependencies": {
+    "pagefind": "^1.4.0",
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,0 +1,49 @@
+name: Deploy knowledge base
+
+on:
+  # Publish the default branch after each content or theme update.
+  push:
+    branches: [main]
+
+  # Allow a manual rebuild from the GitHub Actions UI.
+  workflow_dispatch:
+
+permissions:
+  # The workflow only needs repository read access.
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Pin Node so Pagefind and Wrangler builds remain reproducible.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      # Install the Typst CLI used by scripts/build.mjs.
+      - name: Set up Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          typst-version: "0.14.2"
+
+      # npm ci uses package-lock.json after the first local npm install.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site and Pagefind index
+        run: npm run build
+
+      # GitHub Actions performs a direct Pages upload after the static build.
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler pages deploy public --project-name="${CLOUDFLARE_PAGES_PROJECT:-typst-academic-kb}"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_PAGES_PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+

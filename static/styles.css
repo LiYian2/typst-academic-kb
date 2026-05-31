@@ -1,0 +1,84 @@
+:root {
+  color-scheme: light;
+  --bg: #fbfaf7;
+  --panel: #f3f0ea;
+  --text: #22201d;
+  --muted: #716b64;
+  --line: #ddd7ce;
+  --accent: #315a77;
+  --code: #ece8e0;
+  --shadow: rgba(42, 38, 32, 0.08);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #171817;
+  --panel: #202321;
+  --text: #e9e5de;
+  --muted: #aaa39a;
+  --line: #383c39;
+  --accent: #8cb9d4;
+  --code: #292d2a;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.72 "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+button { font: inherit; }
+.layout { display: grid; grid-template-columns: 260px minmax(0, 760px) 220px; gap: 32px; max-width: 1320px; margin: auto; padding: 28px; }
+.sidebar, .toc { position: sticky; top: 28px; align-self: start; max-height: calc(100vh - 56px); overflow: auto; }
+.brand { display: block; color: var(--text); font-size: 18px; font-weight: 700; margin-bottom: 20px; text-decoration: none; }
+.nav-group { margin: 18px 0; }
+.nav-group-title, .toc-title { color: var(--muted); font: 600 12px/1.4 system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.nav-group a, .toc a { display: block; padding: 5px 0; color: var(--muted); font: 14px/1.45 system-ui, sans-serif; text-decoration: none; }
+.nav-group a:hover, .toc a:hover, .nav-group a.active { color: var(--accent); }
+.toolbar { display: flex; gap: 8px; margin: 16px 0; }
+.tool-button, .copy-button {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: 13px/1.4 system-ui, sans-serif;
+  padding: 5px 8px;
+}
+main { min-width: 0; }
+.article { padding-bottom: 64px; }
+.article-meta { border-bottom: 1px solid var(--line); color: var(--muted); margin-bottom: 28px; padding-bottom: 18px; }
+.article-meta h1 { color: var(--text); font-size: 34px; line-height: 1.25; margin: 0 0 8px; }
+.article h1 { font-size: 30px; margin-top: 1.5em; }
+.article h2 { border-bottom: 1px solid var(--line); font-size: 23px; margin-top: 1.8em; padding-bottom: 4px; }
+.article h3 { font-size: 19px; margin-top: 1.6em; }
+pre { position: relative; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--code); padding: 16px; }
+pre .copy-button { position: absolute; right: 8px; top: 8px; opacity: .82; }
+code { font-family: "SFMono-Regular", Consolas, monospace; font-size: .88em; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; }
+figure { margin: 24px 0; overflow-x: auto; }
+.math { cursor: copy; }
+.math-block { display: block; margin: 18px auto; overflow-x: auto; text-align: center; }
+.math-inline { display: inline-block; vertical-align: -.22em; }
+.math svg { max-width: 100%; }
+.toc ol { list-style: none; margin: 8px 0; padding: 0; }
+.toc li.depth-3 { padding-left: 12px; }
+.toc li.depth-4 { padding-left: 24px; }
+#search-panel { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 14px; }
+pagefind-searchbox { font-family: system-ui, sans-serif; }
+@media (max-width: 1080px) {
+  .layout { grid-template-columns: 230px minmax(0, 1fr); }
+  .toc { display: none; }
+}
+@media (max-width: 760px) {
+  .layout { display: block; padding: 18px; }
+  .sidebar { position: static; max-height: none; }
+  .nav-groups { display: none; }
+  .sidebar.open .nav-groups { display: block; }
+  .article-meta h1 { font-size: 29px; }
+}
