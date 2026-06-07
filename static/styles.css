@@ -71,6 +71,50 @@ figure { margin: 24px 0; overflow-x: auto; }
 .toc li.depth-4 { padding-left: 24px; }
 #search-panel { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 14px; }
 pagefind-searchbox { font-family: system-ui, sans-serif; }
+/* PDF 扫描笔记面板 */
+.pdf-list {
+  display: grid;
+  gap: 1.35rem;
+}
+.pdf-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+.pdf-panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.8rem;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 0.7rem 0.85rem;
+}
+.pdf-panel-title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 650;
+}
+.pdf-panel-actions {
+  display: flex;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+}
+.pdf-preview {
+  display: block;
+  width: 100%;
+  height: min(78vh, 820px);
+  min-height: 520px;
+  border: 0;
+  background: var(--panel);
+}
+@media (max-width: 720px) {
+  .pdf-preview {
+    height: 72vh;
+    min-height: 420px;
+  }
+}
+
 @media (max-width: 1080px) {
   .layout { grid-template-columns: 230px minmax(0, 1fr); }
   .toc { display: none; }

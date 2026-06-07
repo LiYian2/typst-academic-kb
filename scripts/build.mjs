@@ -10,9 +10,11 @@ const buildDir = path.join(projectRoot, ".build");
 const preparedDir = path.join(buildDir, "content");
 const renderedDir = path.join(buildDir, "rendered");
 const publicDir = path.join(projectRoot, "public");
+const originalPdfDir = path.join(projectRoot, "original_repo/ai-academic-notes/docs/public/pdfs");
+const publicPdfDir = path.join(publicDir, "pdfs");
 const htmlPreamble = `
-// HTML export does not render equations automatically yet. Keep this rule in
-// the converter layer so authors can continue to write ordinary Typst math.
+// @type: raw-html pages use their raw content directly.
+// @type: typst pages get the html preamble for math rendering.
 #show math.equation: it => html.elem(
   "span",
   attrs: (
@@ -25,13 +27,25 @@ const htmlPreamble = `
 
 await resetDirectories();
 const sourceFiles = await collectFiles(contentDir, ".typ");
-const documents = sourceFiles.map(readDocumentMetadata).sort(compareDocuments);
+const documents = [];
 
-for (const document of documents) {
-  await prepareSource(document);
-  document.body = await compileTypst(document);
-  document.toc = addHeadingIdsAndExtractToc(document);
+for (const sourcePath of sourceFiles) {
+  const raw = await readFile(sourcePath, "utf8");
+  const meta = readMetadata(sourcePath, raw);
+
+  if (meta.type === "raw-html") {
+    // Raw HTML pages: strip metadata comments, use rest as body
+    const body = raw.replace(/^\/\/[^\n]*\n?/gm, "").trim();
+    documents.push({ ...meta, body, toc: [] });
+  } else {
+    await prepareSource(meta, raw);
+    meta.body = await compileTypst(meta);
+    meta.toc = addHeadingIdsAndExtractToc(meta);
+    documents.push(meta);
+  }
 }
+
+documents.sort(compareDocuments);
 
 const sidebar = renderSidebar(documents);
 for (const document of documents) {
@@ -39,7 +53,8 @@ for (const document of documents) {
 }
 await writeHomePage(documents, sidebar);
 await cp(staticDir, publicDir, { recursive: true });
-console.log(`Built ${documents.length} Typst documents into ${path.relative(projectRoot, publicDir)}/`);
+await copyPdfs();
+console.log(`Built ${documents.length} documents into ${path.relative(projectRoot, publicDir)}/`);
 
 async function resetDirectories() {
   await rm(buildDir, { recursive: true, force: true });
@@ -60,10 +75,10 @@ async function collectFiles(directory, extension) {
   return files;
 }
 
-function readDocumentMetadata(sourcePath) {
+function readMetadata(sourcePath, raw) {
   const relativePath = path.relative(contentDir, sourcePath);
   const slug = relativePath.replace(/\.typ$/, "").split(path.sep).join("/");
-  return {
+  const doc = {
     sourcePath,
     relativePath,
     slug,
@@ -71,23 +86,24 @@ function readDocumentMetadata(sourcePath) {
     title: titleCase(slug.split("/").at(-1)),
     description: "",
     order: 999,
+    type: "typst",
   };
+  for (const [, key, value] of raw.matchAll(/^\/\/\s*@([\w-]+):\s*(.+)$/gm)) {
+    if (key === "title") doc.title = value.trim();
+    if (key === "description") doc.description = value.trim();
+    if (key === "order") doc.order = Number(value.trim());
+    if (key === "type") doc.type = value.trim();
+  }
+  return doc;
 }
 
-async function prepareSource(document) {
-  const source = await readFile(document.sourcePath, "utf8");
-  for (const [, key, value] of source.matchAll(/^\/\/\s*@([\w-]+):\s*(.+)$/gm)) {
-    if (key === "title") document.title = value.trim();
-    if (key === "description") document.description = value.trim();
-    if (key === "order") document.order = Number(value.trim());
-  }
+async function prepareSource(document, raw) {
   const preparedPath = path.join(preparedDir, document.relativePath);
   await mkdir(path.dirname(preparedPath), { recursive: true });
-  await writeFile(preparedPath, `${htmlPreamble}\n${replaceWikiLinks(source)}`, "utf8");
+  await writeFile(preparedPath, `${htmlPreamble}\n${replaceWikiLinks(raw)}`, "utf8");
 }
 
 function replaceWikiLinks(source) {
-  // Wiki-links are expanded before Typst compilation so output remains normal HTML links.
   return source.replace(/\[\[([a-zA-Z0-9/_-]+)(?:\|([^\]]+))?\]\]/g, (_, slug, label) => {
     return `#link("/${slug}/")[${label || titleCase(slug.split("/").at(-1))}]`;
   });
@@ -228,4 +244,13 @@ function escapeHtml(value) {
 
 function escapeAttribute(value) {
   return escapeHtml(value).replaceAll("'", "&#39;");
+}
+
+async function copyPdfs() {
+  try {
+    await cp(originalPdfDir, publicPdfDir, { recursive: true });
+    console.log(`Copied PDFs from ${path.relative(projectRoot, originalPdfDir)} to ${path.relative(projectRoot, publicPdfDir)}/`);
+  } catch {
+    console.log("No PDFs found to copy (directory may not exist)");
+  }
 }
