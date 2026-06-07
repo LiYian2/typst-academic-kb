@@ -2,10 +2,9 @@
   // Cloudflare Pages project name. Change this before the first deployment.
   "name": "typst-academic-kb",
 
-  // The build script writes the complete static website here.
+  // Cloudflare Pages Git integration should use this same output directory.
   "pages_build_output_dir": "./public",
 
   // Pin runtime behavior even though this project currently has no Functions.
   "compatibility_date": "2026-05-31"
 }
-

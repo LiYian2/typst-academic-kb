@@ -44,19 +44,30 @@ npm run build:site
 
 ## Cloudflare Pages
 
-仓库推送到 GitHub 后，GitHub Actions 会构建并部署到 Cloudflare Pages。先在
-GitHub 仓库中配置：
+本项目保留 Cloudflare Pages Git 集成作为唯一自动部署入口。连接
+`LiYian2/typst-academic-kb` 后，每次推送 `main` 都会触发 Cloudflare 构建。
 
-- Secret `CLOUDFLARE_API_TOKEN`：具有 Pages 编辑权限的 API Token。
-- Secret `CLOUDFLARE_ACCOUNT_ID`：Cloudflare Account ID。
-- Variable `CLOUDFLARE_PAGES_PROJECT`：Pages 项目名；未配置时使用
-  `typst-academic-kb`。
+Pages 构建配置：
+
+- Production branch: `main`
+- Build command: `npm ci && npm run build:cloudflare`
+- Build output directory: `public`
+- Node.js version: `22`
+
+Cloudflare Pages 默认没有 Typst CLI。`npm run build:cloudflare` 会先运行
+`scripts/install-typst.mjs`，下载固定版本 Typst `0.14.2` 到
+`node_modules/.bin/typst`，再执行普通构建。
 
 `wrangler.jsonc` 也记录了项目名和输出目录，便于本地预览和手动部署。
-首次部署前先创建 Pages 项目：
+如果需要手动创建 Pages 项目：
 
 ```bash
 npx wrangler pages project create typst-academic-kb --production-branch=main
 ```
 
-之后可以手动执行 `npm run deploy`，或让 GitHub Actions 自动上传。
+如果需要跳过 Git 集成并手动上传当前本地构建：
+
+```bash
+npm run build
+npm run deploy -- --project-name=typst-academic-kb --branch=main
+```

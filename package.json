@@ -3,8 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "description": "A maintainable Typst-first academic knowledge base.",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "node scripts/build.mjs && pagefind --site public",
+    "build:cloudflare": "node scripts/install-typst.mjs && npm run build",
     "build:site": "node scripts/build.mjs",
     "preview": "npx wrangler pages dev public",
     "deploy": "npx wrangler pages deploy public"
