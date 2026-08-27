@@ -1,3 +1,7 @@
+// @title: Cluster Analysis: Basic and Advanced Methods
+// @description: K-means、层次聚类、DBSCAN、扩展方法与聚类评估。
+// @order: 80
+
 #import "../template.typ": *
 
 = Cluster Analysis: Basic and Advanced Methods
@@ -12,7 +16,7 @@ Cluster analysis groups unlabeled objects so that within-cluster similarity is h
 
 *Exam: ★★★★☆*
 
-A *partitional clustering* divides objects into non-overlapping subsets; a *hierarchical clustering* produces nested clusters represented by a dendrogram. Exclusive clustering assigns one cluster per point, while non-exclusive clustering allows multiple memberships. Fuzzy clustering uses $w_ij in [0,1]$ with $sum_(j=1)^k w_ij=1$. Complete clustering assigns every object; partial clustering may leave noise unassigned.
+A *partitional clustering* divides objects into non-overlapping subsets; a *hierarchical clustering* produces nested clusters represented by a dendrogram. Exclusive clustering assigns one cluster per point, while non-exclusive clustering allows multiple memberships. Fuzzy clustering uses $w_(i j) in [0,1]$ with $sum_(j=1)^k w_(i j)=1$. Complete clustering assigns every object; partial clustering may leave noise unassigned.
 
 The lecture uses five cluster notions:
 
@@ -43,7 +47,7 @@ The slides say SSE improves until a "local or global minima." K-means does not g
 Initialization matters. If $k$ equally sized true clusters each contain $n$ points, the probability that $k$ independently sampled initial centers contain exactly one point from each cluster is
 
 $
-  P=(k! n^k)/(kn)^k=k!/k^k.
+  P=(k! n^k)/(k n)^k=k!/k^k.
 $
 
 For $k=10$, $P approx 0.00036$. K-means++ chooses later centers with probability proportional to squared distance from the nearest chosen center and has an expected $O(log k)$ approximation guarantee. Bisecting K-means repeatedly applies 2-means to split clusters and is less exposed to one global initialization.
@@ -52,34 +56,34 @@ K-means prefers compact, roughly globular clusters and can fail for differing si
 
 === Fuzzy c-means
 
-Hard K-means can use $w_ij in {0,1}$:
+Hard K-means can use $w_(i j) in {0,1}$:
 
 $
-  J=sum_(j=1)^k sum_(i=1)^n w_ij norm(x_i-c_j)^2,
-  quad sum_(j=1)^k w_ij=1.
+  J=sum_(j=1)^k sum_(i=1)^n w_(i j) norm(x_i-c_j)^2,
+  quad sum_(j=1)^k w_(i j)=1.
 $
 
-Simply relaxing $w_ij$ to $[0,1]$ still yields hard assignments because the objective is linear in $w_ij$. Fuzzy c-means introduces $p>1$:
+Simply relaxing $w_(i j)$ to $[0,1]$ still yields hard assignments because the objective is linear in $w_(i j)$. Fuzzy c-means introduces $p>1$:
 
 $
-  J_p=sum_(j=1)^k sum_(i=1)^n w_ij^p norm(x_i-c_j)^2.
+  J_p=sum_(j=1)^k sum_(i=1)^n w_(i j)^p norm(x_i-c_j)^2.
 $
 
 The updates are
 
 $
-  c_j=(sum_(i=1)^n w_ij^p x_i)/(sum_(i=1)^n w_ij^p),
+  c_j=(sum_(i=1)^n w_(i j)^p x_i)/(sum_(i=1)^n w_(i j)^p),
 $
 
 $
-  w_ij=1/sum_(q=1)^k
+  w_(i j)=1/sum_(q=1)^k
   (norm(x_i-c_j)^2/norm(x_i-c_q)^2)^(1/(p-1)).
 $
 
 Larger $p$ produces softer memberships.
 
 #warning[
-Advanced slide 8 omits the power $p$ in the centroid update; the correct update uses $w_ij^p$. Slide 7 states memberships $0.74$ and $0.36$, which violate the sum-to-one constraint. The intended second value is $0.26$, since $2.25(0.74)^2+6.25(0.26)^2 approx 1.654$.
+Advanced slide 8 omits the power $p$ in the centroid update; the correct update uses $w_(i j)^p$. Slide 7 states memberships $0.74$ and $0.36$, which violate the sum-to-one constraint. The intended second value is $0.26$, since $2.25(0.74)^2+6.25(0.26)^2 approx 1.654$.
 ]
 
 === Mixture models and EM
@@ -94,19 +98,19 @@ $
 For Gaussian mixtures, EM alternates responsibilities
 
 $
-  gamma_ij=P(C_j|x_i)
+  gamma_(i j)=P(C_j|x_i)
   =(pi_j p(x_i|C_j))/(sum_(q=1)^k pi_q p(x_i|C_q))
 $
 
-with parameter updates. Let $N_j=sum_i gamma_ij$:
+with parameter updates. Let $N_j=sum_i gamma_(i j)$:
 
 $
   pi_j=N_j/n,
-  quad mu_j=(sum_i gamma_ij x_i)/N_j,
+  quad mu_j=(sum_i gamma_(i j) x_i)/N_j,
 $
 
 $
-  Sigma_j=(sum_i gamma_ij (x_i-mu_j)(x_i-mu_j)^T)/N_j.
+  Sigma_j=(sum_i gamma_(i j) (x_i-mu_j)(x_i-mu_j)^T)/N_j.
 $
 
 EM resembles K-means in alternating assignment/update structure and initialization sensitivity, but posterior probabilities give soft membership and full covariance Gaussians can model elliptical clusters. Full covariance requires $O(d^2)$ parameters per component; EM may converge slowly and only guarantees a local optimum.
@@ -150,9 +154,9 @@ It is a hierarchical analogue of K-means. Traditional proximity-matrix implement
 
 *Exam: ★★★★★*
 
-DBSCAN uses radius $eps$ and minimum count $"MinPts"$. Define $N_eps(x)={y:d(x,y)<=eps}$. A core point has $|N_eps(x)| >= "MinPts"$, counting itself; a border point is non-core but lies near a core point; all others are noise. Connected core points form cluster backbones and border points attach to neighboring core clusters.
+DBSCAN uses radius $epsilon$ and minimum count $"MinPts"$. Define $N_epsilon(x)={y:d(x,y)<=epsilon}$. A core point has $|N_epsilon(x)| >= "MinPts"$, counting itself; a border point is non-core but lies near a core point; all others are noise. Connected core points form cluster backbones and border points attach to neighboring core clusters.
 
-DBSCAN handles irregular shapes and noise and determines the number of clusters from density connectivity. It performs poorly with strongly varying densities and in high dimensions. A sorted $k$-distance plot can suggest $eps$: the knee separates dense points from sparse/noise points.
+DBSCAN handles irregular shapes and noise and determines the number of clusters from density connectivity. It performs poorly with strongly varying densities and in high dimensions. A sorted $k$-distance plot can suggest $epsilon$: the knee separates dense points from sparse/noise points.
 
 #warning[
 The slides' complexity claims are implementation-dependent. Naive DBSCAN is $O(n^2)$, but indexed low-dimensional implementations can approach $O(n log n)$. Calling K-means or EM simply $O(n)$ suppresses factors for $k$, dimension, and iteration count.
@@ -172,21 +176,21 @@ Graph-based clustering represents points as vertices with proximity-weighted edg
 
 Chameleon addresses the static nature of MIN and group-average merging. It first constructs a sparse $k$-NN graph, partitions it into many relatively pure, well-connected subclusters, then agglomeratively merges them using *relative interconnectivity* (RI) and *relative closeness* (RC).
 
-If $EC(C_i,C_j)$ is total cross-edge weight and $EC(C_i),EC(C_j)$ are internal cut connectivities,
+If $"EC"(C_i,C_j)$ is total cross-edge weight and $"EC"(C_i),"EC"(C_j)$ are internal cut connectivities,
 
 $
   "RI"(C_i,C_j)=
-  EC(C_i,C_j)/((EC(C_i)+EC(C_j))/2).
+  "EC"(C_i,C_j)/(("EC"(C_i)+"EC"(C_j))/2).
 $
 
 RI near $1$ means cross-connectivity is comparable to internal connectivity. With average edge weights $bar(S)$ and sizes $m_i,m_j$,
 
 $
   "RC"(C_i,C_j)=
-  bar(S)_(EC(C_i,C_j))/
+  bar(S)_("EC"(C_i,C_j))/
   (
-    m_i/(m_i+m_j) bar(S)_(EC(C_i))
-    +m_j/(m_i+m_j) bar(S)_(EC(C_j))
+    m_i/(m_i+m_j) bar(S)_("EC"(C_i))
+    +m_j/(m_i+m_j) bar(S)_("EC"(C_j))
   ).
 $
 
@@ -238,12 +242,12 @@ An ideal similarity matrix contains $1$ for same-cluster pairs and $0$ otherwise
 
 SSE can estimate $k$ using the elbow/change-point heuristic: choose a point after which additional clusters produce much smaller reductions in SSE.
 
-With external classes, for cluster $C_i$ define $p_ij=n_ij/|C_i|$. Its entropy and purity are
+With external classes, for cluster $C_i$ define $p_(i j)=n_(i j)/|C_i|$. Its entropy and purity are
 
 $
-  H(C_i)=-sum_j p_ij log_2 p_ij,
+  H(C_i)=-sum_j p_(i j) log_2 p_(i j),
   quad
-  "purity"(C_i)=max_j p_ij.
+  "purity"(C_i)=max_j p_(i j).
 $
 
 Overall scores are size-weighted:

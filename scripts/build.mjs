@@ -28,17 +28,28 @@ const htmlPreamble = `
 await resetDirectories();
 const sourceFiles = await collectFiles(contentDir, ".typ");
 const documents = [];
+const sources = [];
 
 for (const sourcePath of sourceFiles) {
   const raw = await readFile(sourcePath, "utf8");
   const meta = readMetadata(sourcePath, raw);
+
+  sources.push({ meta, raw });
+  if (meta.type === "module") {
+    await prepareModule(meta, raw);
+  } else if (meta.type !== "raw-html") {
+    await prepareSource(meta, raw);
+  }
+}
+
+for (const { meta, raw } of sources) {
+  if (meta.type === "module") continue;
 
   if (meta.type === "raw-html") {
     // Raw HTML pages: strip metadata comments, use rest as body
     const body = raw.replace(/^\/\/[^\n]*\n?/gm, "").trim();
     documents.push({ ...meta, body, toc: [] });
   } else {
-    await prepareSource(meta, raw);
     meta.body = await compileTypst(meta);
     meta.toc = addHeadingIdsAndExtractToc(meta);
     documents.push(meta);
@@ -95,6 +106,12 @@ function readMetadata(sourcePath, raw) {
     if (key === "type") doc.type = value.trim();
   }
   return doc;
+}
+
+async function prepareModule(document, raw) {
+  const preparedPath = path.join(preparedDir, document.relativePath);
+  await mkdir(path.dirname(preparedPath), { recursive: true });
+  await writeFile(preparedPath, raw, "utf8");
 }
 
 async function prepareSource(document, raw) {

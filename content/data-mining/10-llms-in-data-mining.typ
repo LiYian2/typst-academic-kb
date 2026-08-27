@@ -1,3 +1,7 @@
+// @title: LLMs in Data Mining
+// @description: 大语言模型、文档处理、检索以及 LLM 辅助的数据挖掘方法。
+// @order: 100
+
 #import "../template.typ": *
 
 = LLMs in Data Mining

@@ -1,3 +1,7 @@
+// @title: Classification: Advanced Methods
+// @description: 特征选择、SVM、弱监督学习以及流、序列和图数据分类。
+// @order: 70
+
 #import "../template.typ": *
 
 = Classification: Advanced Methods
@@ -58,11 +62,11 @@ The loss favors predictive fit while the $L_1$ term shrinks coefficients and can
 
 Coordinate descent updates one coefficient while holding the others fixed. For coordinate $t$, define the partial residual excluding feature $t$,
 
-$ r_i = y_i - sum_(j != t) w_j x_(ij). $
+$ r_i = y_i - sum_(j != t) w_j x_(i j). $
 
-If the feature is normalized so that $sum_i x_(it)^2=1$, the unregularized one-dimensional least-squares coefficient is
+If the feature is normalized so that $sum_i x_(i t)^2=1$, the unregularized one-dimensional least-squares coefficient is
 
-$ beta_t = sum_(i=1)^n x_(it) r_i. $
+$ beta_t = sum_(i=1)^n x_(i t) r_i. $
 
 The coordinate update solves
 

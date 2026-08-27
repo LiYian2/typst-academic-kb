@@ -1,3 +1,7 @@
+// @title: Data, Measurements, and Data Preprocessing
+// @description: 数据表示、统计描述、相似度、清洗、变换与降维。
+// @order: 21
+
 #import "../template.typ": *
 
 = Data, Measurements, and Data Preprocessing
@@ -69,7 +73,7 @@ A *trimmed mean* removes a chosen fraction of extreme observations before comput
 The *median* is the middle observation after sorting when $n$ is odd, or the average of the two middle observations when $n$ is even. For grouped data, the slides estimate the median by interpolation within the median interval:
 
 $
-  median approx L + ((n/2 - F)/f_m) w,
+  upright("median") approx L + ((n/2 - F)/f_m) w,
 $
 
 where $L$ is the lower boundary of the median interval, $F$ is the cumulative frequency before that interval, $f_m$ is its frequency, and $w$ is the interval width.
@@ -77,12 +81,12 @@ where $L$ is the lower boundary of the median interval, $F$ is the cumulative fr
 The *mode* is the most frequent value. A distribution may be unimodal, bimodal, trimodal, or more generally multimodal. The slides also give the empirical relation
 
 $
-  mean - mode approx 3 (mean - median),
+  upright("mean") - upright("mode") approx 3 (upright("mean") - upright("median")),
 $
 
 which is a rough heuristic for moderately skewed unimodal distributions, not a general identity.
 
-For a symmetric unimodal distribution, mean, median, and mode coincide. In a positively skewed distribution the long right tail pulls the mean rightward, typically giving $mode < median < mean$; for negative skewness the ordering is typically reversed.
+For a symmetric unimodal distribution, mean, median, and mode coincide. In a positively skewed distribution the long right tail pulls the mean rightward, typically giving $upright("mode") < upright("median") < upright("mean")$; for negative skewness the ordering is typically reversed.
 
 #informally[
   The mean uses every magnitude and is therefore sensitive to extreme values. The median uses only ordering and is robust to extremes. The mode answers a different question: which value or region occurs most frequently. Their disagreement is therefore informative about skewness and multimodality rather than merely a nuisance.
@@ -93,7 +97,7 @@ For a symmetric unimodal distribution, mean, median, and mode coincide. In a pos
 For a random variable $X$ with mean $mu = E[X]$, variance is the expected squared deviation from the mean:
 
 $
-  sigma^2 = var(X) = E[(X-mu)^2] = E[X^2] - (E[X])^2.
+  sigma^2 = upright("Var")(X) = E[(X-mu)^2] = E[X^2] - (E[X])^2.
 $
 
 For a discrete random variable this is $sum_x (x-mu)^2 f(x)$; for a continuous variable it is $integral_(-infinity)^infinity (x-mu)^2 f(x) dif x$. The standard deviation is $sigma = sqrt(sigma^2)$ and has the same physical units as the original variable.
@@ -133,7 +137,7 @@ $
   = E[X_1 X_2] - E[X_1] E[X_2].
 $
 
-Positive covariance indicates that the variables tend to deviate from their means in the same direction; negative covariance indicates opposite directions. Variance is the special case $sigma_11 = var(X_1)$.
+Positive covariance indicates that the variables tend to deviate from their means in the same direction; negative covariance indicates opposite directions. Variance is the special case $sigma_11 = upright("Var")(X_1)$.
 
 The slides' stock example uses observations $(2,5)$, $(3,8)$, $(5,10)$, $(4,11)$, $(6,14)$. The means are $E[X_1]=4$ and $E[X_2]=9.6$, and
 
@@ -146,7 +150,7 @@ so the covariance is positive.
 Independence implies zero covariance whenever the relevant moments exist, because $E[X_1 X_2] = E[X_1]E[X_2]$. The converse is false in general: zero covariance means no *linear* co-movement, not independence. Under additional assumptions such as joint multivariate normality, zero covariance does imply independence.
 
 #example[
-  The slides give three equally likely pairs $(X_1,X_2)=(1,0),(-1,1),(-1,-1)$. Here $E[X_1]=-1/3$, $E[X_2]=0$, and $E[X_1X_2]=0$, hence $cov(X_1,X_2)=0$. Yet $P(X_2=0 | X_1=1)=1$ while $P(X_2=0)=1/3$, so the variables are not independent.
+  The slides give three equally likely pairs $(X_1,X_2)=(1,0),(-1,1),(-1,-1)$. Here $E[X_1]=-1/3$, $E[X_2]=0$, and $E[X_1X_2]=0$, hence $upright("Cov")(X_1,X_2)=0$. Yet $P(X_2=0 | X_1=1)=1$ while $P(X_2=0)=1/3$, so the variables are not independent.
 ]
 
 Correlation standardizes covariance to remove the variables' scales:
@@ -159,8 +163,8 @@ For a sample, the correlation can be computed directly as
 
 $
   hat(rho)_12 =
-  (sum_(i=1)^n (x_(i1)-overline(x)_1)(x_(i2)-overline(x)_2)) /
-  sqrt((sum_(i=1)^n (x_(i1)-overline(x)_1)^2)(sum_(i=1)^n (x_(i2)-overline(x)_2)^2)).
+  (sum_(i=1)^n (x_(i 1)-overline(x)_1)(x_(i 2)-overline(x)_2)) /
+  sqrt((sum_(i=1)^n (x_(i 1)-overline(x)_1)^2)(sum_(i=1)^n (x_(i 2)-overline(x)_2)^2)).
 $
 
 Values near 1 indicate strong positive linear association, values near -1 strong negative linear association, and values near 0 weak linear association. Scatter plots make this geometry visible: a narrow rising cloud has large positive correlation, a narrow falling cloud has large negative correlation, and a diffuse or nonlinear cloud can have correlation near zero.
@@ -196,7 +200,7 @@ $
 For a cell in row $r$ and column $c$ with grand total $n$, the expected count is
 
 $
-  E_(r c) = ((row total)_r (column total)_c)/n.
+  E_(r c) = ((upright("row total"))_r (upright("column total"))_c)/n.
 $
 
 In the slide example, 450 of 1500 people like science fiction and 300 of 1500 play chess, so under independence the expected count in the “like science fiction and play chess” cell is $450/1500 dot 300 = 90$. Using all four cells yields $chi^2 approx 507.93$. For a table with $R$ row categories and $C$ column categories, the degrees of freedom are $(R-1)(C-1)$; hence the $2 times 2$ example has one degree of freedom.
@@ -209,10 +213,10 @@ The null hypothesis is that the two categorical variables are independent. Cells
 
 === Graphical summaries
 
-A *boxplot* summarizes a distribution through its quartiles. $Q_1$ is the 25th percentile, $Q_2$ the median, and $Q_3$ the 75th percentile; the interquartile range is $IQR = Q_3-Q_1$. A classical five-number summary is $(min, Q_1, median, Q_3, max)$. In a Tukey-style boxplot, the box spans $Q_1$ to $Q_3$, the median is drawn inside, and outliers are commonly defined relative to the fences $Q_1-1.5 IQR$ and $Q_3+1.5 IQR$.
+A *boxplot* summarizes a distribution through its quartiles. $Q_1$ is the 25th percentile, $Q_2$ the median, and $Q_3$ the 75th percentile; the interquartile range is $upright("IQR") = Q_3-Q_1$. A classical five-number summary is $(upright("min"), Q_1, upright("median"), Q_3, upright("max"))$. In a Tukey-style boxplot, the box spans $Q_1$ to $Q_3$, the median is drawn inside, and outliers are commonly defined relative to the fences $Q_1-1.5 upright("IQR")$ and $Q_3+1.5 upright("IQR")$.
 
 #warning[
-  One slide states both that whiskers extend to the minimum/maximum and that points beyond $1.5 IQR$ are plotted as outliers. These conventions conflict in a Tukey boxplot. If outliers are plotted individually, whiskers normally extend to the most extreme observations *within* the $1.5 IQR$ fences, not necessarily to the global minimum and maximum.
+  One slide states both that whiskers extend to the minimum/maximum and that points beyond $1.5 upright("IQR")$ are plotted as outliers. These conventions conflict in a Tukey boxplot. If outliers are plotted individually, whiskers normally extend to the most extreme observations *within* the $1.5 upright("IQR")$ fences, not necessarily to the global minimum and maximum.
 ]
 
 A *histogram* displays the distribution of quantitative data by dividing its numeric range into bins. When bin widths are unequal, bar *area* should encode frequency (or probability), so the height corresponds to frequency density. A *bar chart* instead compares categorical values; categories may be reordered, while histogram bins retain their numerical order. Thus student heights, ER waiting times, and house prices naturally call for histograms, while blood types, diagnoses, cities, and smoker/non-smoker categories call for bar charts. Small integer-valued distributions are borderline cases: a bar chart can emphasize discrete outcomes, while a histogram-like display can emphasize their distribution.
@@ -235,7 +239,7 @@ A data matrix stores $n$ objects by $l$ attributes. A dissimilarity matrix inste
 
 === Minkowski distance for numerical data
 
-For two $l$-dimensional objects $i=(x_(i1),dots,x_(il))$ and $j=(x_(j1),dots,x_(jl))$, Minkowski distance of order $p >= 1$ is
+For two $l$-dimensional objects $i=(x_(i 1),dots,x_(i l))$ and $j=(x_(j 1),dots,x_(j l))$, Minkowski distance of order $p >= 1$ is
 
 $
   d_p(i,j) = (sum_(f=1)^l abs(x_(i f)-x_(j f))^p)^(1/p).
@@ -278,10 +282,10 @@ $
 The corresponding *Jaccard similarity* is
 
 $
-  sim_J(i,j) = q/(q+r+s).
+  upright("sim")_J(i,j) = q/(q+r+s).
 $
 
-This is appropriate when co-presence is informative but co-absence is not. The medical-record example in the slides therefore excludes gender from the asymmetric calculation and obtains $d(Jack,Mary)=1/3$, $d(Jack,Jim)=2/3$, and $d(Jim,Mary)=3/4$ from the remaining binary attributes.
+This is appropriate when co-presence is informative but co-absence is not. The medical-record example in the slides therefore excludes gender from the asymmetric calculation and obtains $d("Jack","Mary")=1/3$, $d("Jack","Jim")=2/3$, and $d("Jim","Mary")=3/4$ from the remaining binary attributes.
 
 For nominal attributes, a simple matching dissimilarity counts mismatches. If $m$ of $p$ attributes match,
 
@@ -327,18 +331,18 @@ Cosine similarity is insensitive to a common positive scaling of a vector, so tw
 The Kullback-Leibler divergence compares probability distributions over the same variable. For discrete distributions,
 
 $
-  D_(KL)(P || Q) = sum_x p(x) ln(p(x)/q(x)),
+  D_("KL")(P || Q) = sum_x p(x) ln(p(x)/q(x)),
 $
 
 and for continuous densities,
 
 $
-  D_(KL)(P || Q) = integral_(-infinity)^infinity p(x) ln(p(x)/q(x)) dif x.
+  D_("KL")(P || Q) = integral_(-infinity)^infinity p(x) ln(p(x)/q(x)) dif x.
 $
 
-It measures the expected information penalty incurred when a code or model based on $Q$ is used for samples generated from $P$. In applications, $P$ is often the reference or data-generating distribution and $Q$ an approximation. $D_(KL)(P||Q) >= 0$ and equals zero exactly when the two distributions agree almost everywhere.
+It measures the expected information penalty incurred when a code or model based on $Q$ is used for samples generated from $P$. In applications, $P$ is often the reference or data-generating distribution and $Q$ an approximation. $D_("KL")(P||Q) >= 0$ and equals zero exactly when the two distributions agree almost everywhere.
 
-KL divergence is *not* a metric: in general $D_(KL)(P||Q) != D_(KL)(Q||P)$ and the triangle inequality does not hold. If $p(x)=0$, the contribution is defined by the limit $p ln p arrow.r 0$. If $p(x)>0$ but $q(x)=0$, then $D_(KL)(P||Q)=infinity$ because $Q$ assigns zero probability to an event that can occur under $P$.
+KL divergence is *not* a metric: in general $D_("KL")(P||Q) != D_("KL")(Q||P)$ and the triangle inequality does not hold. If $p(x)=0$, the contribution is defined by the limit $p ln p arrow.r 0$. If $p(x)>0$ but $q(x)=0$, then $D_("KL")(P||Q)=infinity$ because $Q$ assigns zero probability to an event that can occur under $P$.
 
 The slides therefore motivate smoothing when empirical frequency distributions have unseen symbols. If $P$ and $Q$ have different observed supports, a small $epsilon$ can be assigned to missing symbols and the remaining probabilities adjusted so that each distribution still sums to one.
 
@@ -403,10 +407,11 @@ A data transformation maps values or representations to new values while retaini
 
 === Normalization
 
-Normalization places numerical attributes on comparable scales. For min-max normalization of an attribute $A$ from $[min_A,max_A]$ to $[new_min_A,new_max_A]$,
+Normalization places numerical attributes on comparable scales. For min-max normalization of an attribute $A$ from $[upright("min")_A,upright("max")_A]$ to $[upright("new min")_A,upright("new max")_A]$,
 
 $
-  v' = (v-min_A)/(max_A-min_A) (new_max_A-new_min_A) + new_min_A.
+  v' = (v-upright("min")_A)/(upright("max")_A-upright("min")_A)
+       (upright("new max")_A-upright("new min")_A) + upright("new min")_A.
 $
 
 For the slide example with income between 12,000 and 98,000, mapping to $[0,1]$ sends 73,600 to approximately 0.716.
@@ -600,7 +605,7 @@ $
 with $d_(i j)^2$ proportional to $((x_i-x_j) dot (x_i-x_j))/(2 sigma^2)$. A low-dimensional embedding $hat(x)_i$ induces corresponding probabilities $hat(P)_(i j)$. The embedding is optimized so that each original neighborhood distribution is close to its low-dimensional counterpart, using
 
 $
-  min_(hat(x)_1,dots,hat(x)_n) sum_(i=1)^n D_(KL)(P_i || hat(P)_i).
+  min_(hat(x)_1,dots,hat(x)_n) sum_(i=1)^n D_("KL")(P_i || hat(P)_i).
 $
 
 Thus KPCA and SNE fit the same high-level template—construct proximity, then preserve it—but use different definitions and loss functions: kernel similarity plus spectral decomposition for KPCA, versus stochastic neighborhoods plus KL divergence for SNE.

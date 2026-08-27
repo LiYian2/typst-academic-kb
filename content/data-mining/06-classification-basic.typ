@@ -1,3 +1,7 @@
+// @title: Classification: Basic Concepts
+// @description: 决策树、贝叶斯分类、KNN、逻辑回归、模型评估与集成方法。
+// @order: 60
+
 #import "../template.typ": *
 
 = Classification: Basic Concepts
@@ -188,10 +192,10 @@ This turns learning largely into estimating class priors and one-dimensional cla
 
 === Categorical and continuous features
 
-For a categorical feature, $P(X_k=v|C_i)$ is estimated from class-conditional counts. For a continuous feature, the slides use a Gaussian class-conditional model. With class-specific mean $mu_(ik)$ and standard deviation $sigma_(ik)$,
+For a categorical feature, $P(X_k=v|C_i)$ is estimated from class-conditional counts. For a continuous feature, the slides use a Gaussian class-conditional model. With class-specific mean $mu_(i k)$ and standard deviation $sigma_(i k)$,
 
 $
-  p(x_k | C_i) = 1/(sqrt(2 pi) sigma_(ik)) exp(-(x_k-mu_(ik))^2/(2 sigma_(ik)^2)).
+  p(x_k | C_i) = 1/(sqrt(2 pi) sigma_(i k)) exp(-(x_k-mu_(i k))^2/(2 sigma_(i k)^2)).
 $
 
 Under the Naive Bayes assumption, the full likelihood is the product of these feature-wise terms.
@@ -342,11 +346,11 @@ $ theta_(t+1) = theta_t - eta nabla F(theta_t), $
 
 where $eta>0$ is the step size. To maximize the logistic log-likelihood, however, use *gradient ascent*. For component $w_j$,
 
-$ partial ell / partial w_j = sum_(i=1)^n x_(ij) (y_i-p_i), $
+$ partial ell / partial w_j = sum_(i=1)^n x_(i j) (y_i-p_i), $
 
 so an ascent update is
 
-$ w_j <- w_j + eta sum_(i=1)^n x_(ij)(y_i-p_i). $
+$ w_j <- w_j + eta sum_(i=1)^n x_(i j)(y_i-p_i). $
 
 The term $y_i-p_i$ has a simple interpretation. If $y_i=1$, an underconfident prediction $p_i<1$ moves $bold(w)$ in the direction of $bold(x)_i$; if $y_i=0$, the update moves away from $bold(x)_i$ in proportion to the predicted positive probability.
 
@@ -371,25 +375,25 @@ For binary classification, choose one class as positive. The confusion matrix co
 - *FP*: actual negative, predicted positive;
 - *TN*: actual negative, predicted negative.
 
-For $m$ classes, entry $CM_(i,j)$ counts objects whose true class is $i$ but whose predicted class is $j$.
+For $m$ classes, entry $"CM"_(i,j)$ counts objects whose true class is $i$ but whose predicted class is $j$.
 
 === Accuracy, sensitivity, specificity, precision, and recall
 
-Let $P=TP+FN$, $N=TN+FP$, and $"All"=P+N$. Then
+Let $P="TP"+"FN"$, $N="TN"+"FP"$, and $"All"=P+N$. Then
 
-$ "Accuracy" = (TP+TN)/"All", quad "ErrorRate" = (FP+FN)/"All" = 1-"Accuracy". $
+$ "Accuracy" = ("TP"+"TN")/"All", quad "ErrorRate" = ("FP"+"FN")/"All" = 1-"Accuracy". $
 
 Sensitivity, also called recall or true-positive rate, is
 
-$ "Sensitivity" = "Recall" = TP/(TP+FN) = TP/P. $
+$ "Sensitivity" = "Recall" = "TP"/("TP"+"FN") = "TP"/P. $
 
 Specificity, the true-negative rate, is
 
-$ "Specificity" = TN/(TN+FP) = TN/N. $
+$ "Specificity" = "TN"/("TN"+"FP") = "TN"/N. $
 
 Precision asks how many predicted positives are truly positive:
 
-$ "Precision" = TP/(TP+FP). $
+$ "Precision" = "TP"/("TP"+"FP"). $
 
 Precision and recall often trade off as the decision threshold changes. The $F_beta$ score combines them:
 
@@ -406,7 +410,7 @@ $ F_1 = 2 "Precision" "Recall"/("Precision"+"Recall"). $
 ]
 
 #example(title: "Why accuracy can be misleading")[
-  In the cancer example, $TP=90$, $FN=210$, $FP=140$, and $TN=9560$. Hence
+  In the cancer example, $"TP"=90$, $"FN"=210$, $"FP"=140$, and $"TN"=9560$. Hence
 
   $ "Sensitivity" = 90/300 = 0.30, $
   $ "Specificity" = 9560/9700 approx 0.9856, $
@@ -435,11 +439,11 @@ In $k$-fold cross-validation, the data are partitioned into $k$ mutually exclusi
 
 A receiver operating characteristic curve sweeps a decision threshold and plots
 
-$ "TPR" = TP/P $
+$ "TPR" = "TP"/P $
 
 against
 
-$ "FPR" = FP/N = FP/(FP+TN). $
+$ "FPR" = "FP"/N = "FP"/("FP"+"TN"). $
 
 A random ranking lies near the diagonal, with area under the curve around $0.5$; a perfect ranker has AUC $1$. ROC curves therefore compare the trade-off between true-positive and false-positive rates across thresholds.
 

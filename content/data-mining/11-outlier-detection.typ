@@ -1,3 +1,7 @@
+// @title: Outlier Detection
+// @description: 统计、邻近、密度、重构、聚类与高维异常检测方法。
+// @order: 110
+
 #import "../template.typ": *
 
 = Outlier Detection
@@ -85,16 +89,16 @@ The important distinction is that the MLE variance uses denominator $n$, not the
 
 === Robust summaries and Grubbs' test
 
-A boxplot summarizes a univariate distribution through the lower quartile $Q_1$, median $Q_2$, upper quartile $Q_3$, and the smallest and largest *nonoutlying* observations used as whisker endpoints. The interquartile range is $IQR = Q_3 - Q_1$. Tukey's common rule flags
+A boxplot summarizes a univariate distribution through the lower quartile $Q_1$, median $Q_2$, upper quartile $Q_3$, and the smallest and largest *nonoutlying* observations used as whisker endpoints. The interquartile range is $upright("IQR") = Q_3 - Q_1$. Tukey's common rule flags
 
 $
-  x < Q_1 - 1.5 IQR
+  x < Q_1 - 1.5 upright("IQR")
   quad "or" quad
-  x > Q_3 + 1.5 IQR.
+  x > Q_3 + 1.5 upright("IQR").
 $
 
 #warning(title: "Scope of the 99.3% claim")[
-  The slide states that the Tukey fences contain 99.3% of objects. That is not distribution-free. For an exactly normal distribution, the fences lie at about $-2.698 sigma$ and $+2.698 sigma$ and enclose roughly 99.3% probability, but the $1.5 IQR$ rule itself does not guarantee 99.3% coverage for arbitrary data.
+  The slide states that the Tukey fences contain 99.3% of objects. That is not distribution-free. For an exactly normal distribution, the fences lie at about $-2.698 sigma$ and $+2.698 sigma$ and enclose roughly 99.3% probability, but the $1.5 upright("IQR")$ rule itself does not guarantee 99.3% coverage for arbitrary data.
 ]
 
 Grubbs' test targets a single extreme observation under an approximately normal univariate model. Define
@@ -122,7 +126,7 @@ An observation is flagged when $z >= G_("crit")$, where $t_(alpha/(2n), n-2)$ de
 A standard multivariate reduction measures how far an object $o$ lies from the sample mean vector $overline(o)$ after accounting for covariance. The squared Mahalanobis distance is
 
 $
-  MD^2(o)
+  "MD"^2(o)
   = (o - overline(o))^T S^(-1) (o - overline(o)),
 $
 
@@ -137,7 +141,7 @@ $
 where $o_i$ is the object's value on dimension $i$ and $E_i$ is stated to be the mean on that dimension. A large value is claimed to indicate an outlier.
 
 #warning(title: "Multivariate test correction")[
-  The slide suggests applying Grubbs' test directly to Mahalanobis distances. Under a multivariate normal model with dimension $d$, the standard reference result is instead $MD^2 approx chi_d^2$ (subject to estimation details), so a chi-square threshold is the natural multivariate test. The following slide's statistic $sum_i (o_i-E_i)^2/E_i$ is a Pearson-style chi-square expression and is not a general replacement for Mahalanobis distance on arbitrary continuous multivariate features; it requires an appropriate count/expected-value interpretation.
+  The slide suggests applying Grubbs' test directly to Mahalanobis distances. Under a multivariate normal model with dimension $d$, the standard reference result is instead $"MD"^2 approx chi_d^2$ (subject to estimation details), so a chi-square threshold is the natural multivariate test. The following slide's statistic $sum_i (o_i-E_i)^2/E_i$ is a Pearson-style chi-square expression and is not a general replacement for Mahalanobis distance on arbitrary continuous multivariate features; it requires an appropriate count/expected-value interpretation.
 ]
 
 A single Gaussian can be too restrictive when normal data contain several regimes or clusters. A mixture model instead assumes several parametric components. For two components $Theta_1$ and $Theta_2$,
@@ -201,10 +205,10 @@ Proximity-based methods replace an explicit probability model by geometry. Their
 
 === Distance-based outliers
 
-Let $r >= 0$ be a distance threshold and $0 < pi <= 1$ a fraction threshold. The lecture defines $o$ as a $DB(r, pi)$-outlier when
+Let $r >= 0$ be a distance threshold and $0 < pi <= 1$ a fraction threshold. The lecture defines $o$ as a $"DB"(r, pi)$-outlier when
 
 $
-  |{o' in D : dist(o,o') <= r}| / |D| <= pi.
+  |{o' in D : upright("dist")(o,o') <= r}| / |D| <= pi.
 $
 
 Thus only a small fraction of the database lies within radius $r$ of $o$. The parameters encode the anomaly notion directly: larger $r$ demands a broader neighborhood, while smaller $pi$ requires stronger isolation. The slide's algorithm simply counts points satisfying the radius condition and can terminate once the count exceeds $pi |D|$.
@@ -213,15 +217,15 @@ This criterion is fundamentally global. A point near a very dense cluster can be
 
 === k-distance, reachability distance, and LOF
 
-For an object $o$, the *$k$-distance* $dist_k(o)$ is the distance to its $k$th nearest neighbor, with ties handled so that
+For an object $o$, the *$k$-distance* $upright("dist")_k(o)$ is the distance to its $k$th nearest neighbor, with ties handled so that
 
-- at least $k$ other objects lie at distance at most $dist_k(o)$;
+- at least $k$ other objects lie at distance at most $upright("dist")_k(o)$;
 - at most $k-1$ objects lie at strictly smaller distance.
 
 The $k$-distance neighborhood is
 
 $
-  N_k(o) = {o' in D : dist(o,o') <= dist_k(o)}.
+  N_k(o) = {o' in D : upright("dist")(o,o') <= upright("dist")_k(o)}.
 $
 
 Because ties are included, $|N_k(o)|$ may exceed $k$.
@@ -229,61 +233,61 @@ Because ties are included, $|N_k(o)|$ may exceed $k$.
 LOF stabilizes local density estimation using the *reachability distance*. In the slide's arrow notation,
 
 $
-  reachdist_k(o <- o')
-  = max(dist_k(o), dist(o,o')).
+  upright("reachdist")_k(o <- o')
+  = max(upright("dist")_k(o), upright("dist")(o,o')).
 $
 
-The quantity is generally asymmetric because the target point's $k$-distance appears in the maximum. For the local density of $o$, each neighbor $o'$ contributes the reachability distance from $o$ to that neighbor, namely $reachdist_k(o' <- o)$. Hence
+The quantity is generally asymmetric because the target point's $k$-distance appears in the maximum. For the local density of $o$, each neighbor $o'$ contributes the reachability distance from $o$ to that neighbor, namely $upright("reachdist")_k(o' <- o)$. Hence
 
 $
-  lrd_k(o)
+  upright("lrd")_k(o)
   = |N_k(o)|
     /
-    sum_(o' in N_k(o)) reachdist_k(o' <- o).
+    sum_(o' in N_k(o)) upright("reachdist")_k(o' <- o).
 $
 
-For example, if a target neighbor has $dist_k(o')=10$ while its ordinary distance to $o$ is only $1$, the reachability distance is clipped to $10$ rather than $1$. This prevents an extremely close pair from making the local density estimate artificially large. The local reachability density is the reciprocal of the average reachability distance: high $lrd$ means that $o$ sits in a crowded region. The local outlier factor compares the neighbors' densities with $o$'s density:
+For example, if a target neighbor has $upright("dist")_k(o')=10$ while its ordinary distance to $o$ is only $1$, the reachability distance is clipped to $10$ rather than $1$. This prevents an extremely close pair from making the local density estimate artificially large. The local reachability density is the reciprocal of the average reachability distance: high $upright("lrd")$ means that $o$ sits in a crowded region. The local outlier factor compares the neighbors' densities with $o$'s density:
 
 $
-  LOF_k(o)
+  upright("LOF")_k(o)
   = 1/|N_k(o)|
-    sum_(o' in N_k(o)) lrd_k(o') / lrd_k(o).
+    sum_(o' in N_k(o)) upright("lrd")_k(o') / upright("lrd")_k(o).
 $
 
-Therefore $LOF approx 1$ indicates a point whose density resembles its neighborhood, whereas $LOF >> 1$ indicates that the neighbors are much denser and $o$ is a local outlier.
+Therefore $upright("LOF") approx 1$ indicates a point whose density resembles its neighborhood, whereas $upright("LOF") >> 1$ indicates that the neighbors are much denser and $o$ is a local outlier.
 
 #warning(title: "LOF algebra on the slide")[
-  The final expanded equality on the LOF slide drops normalization factors. Since $1/lrd_k(o) = sum reachdist / |N_k(o)|$, expanding the average introduces a factor $1/|N_k(o)|^2$. The normalized ratio form above is the correct and safest expression to use.
+  The final expanded equality on the LOF slide drops normalization factors. Since $1/upright("lrd")_k(o) = sum upright("reachdist") / |N_k(o)|$, expanding the average introduces a factor $1/|N_k(o)|^2$. The normalized ratio form above is the correct and safest expression to use.
 ]
 
 The lecture also defines four reachability-distance extrema for an object $o$:
 
 $
-  direct_(min)(o)
-  = min_(o' in N_k(o)) reachdist_k(o' <- o),
+  upright("direct")_(min)(o)
+  = min_(o' in N_k(o)) upright("reachdist")_k(o' <- o),
 $
 
 $
-  direct_(max)(o)
-  = max_(o' in N_k(o)) reachdist_k(o' <- o),
+  upright("direct")_(max)(o)
+  = max_(o' in N_k(o)) upright("reachdist")_k(o' <- o),
 $
 
 $
-  indirect_(min)(o)
-  = min_(o' in N_k(o), o'' in N_k(o')) reachdist_k(o'' <- o'),
+  upright("indirect")_(min)(o)
+  = min_(o' in N_k(o), o'' in N_k(o')) upright("reachdist")_k(o'' <- o'),
 $
 
 $
-  indirect_(max)(o)
-  = max_(o' in N_k(o), o'' in N_k(o')) reachdist_k(o'' <- o').
+  upright("indirect")_(max)(o)
+  = max_(o' in N_k(o), o'' in N_k(o')) upright("reachdist")_k(o'' <- o').
 $
 
 They bound LOF as
 
 $
-  direct_(min)(o) / indirect_(max)(o)
-  <= LOF_k(o) <=
-  direct_(max)(o) / indirect_(min)(o).
+  upright("direct")_(min)(o) / upright("indirect")_(max)(o)
+  <= upright("LOF")_k(o) <=
+  upright("direct")_(max)(o) / upright("indirect")_(min)(o).
 $
 
 For a point deep inside a cluster of roughly uniform density, direct and indirect scales are similar, making both bounds and the LOF itself close to one.
@@ -394,7 +398,7 @@ Collective detection evaluates a group as a unit. For example, one network packe
 For an unlabeled graph, the lecture treats a subgraph $S$ as a structural unit and characterizes it by
 
 - $|S|$, its number of vertices;
-- $freq(S)$, the number of network subgraphs isomorphic to $S$.
+- $upright("freq")(S)$, the number of network subgraphs isomorphic to $S$.
 
 Two unusual regimes are highlighted: a *small* subgraph with very low frequency can represent a rare local structure, while a *large* subgraph that occurs surprisingly often can also be anomalous relative to the expected size-frequency relationship.
 
@@ -406,10 +410,10 @@ High dimensionality breaks many intuitions used by earlier methods. Data become 
 
 === Extending proximity methods: HilOut
 
-HilOut scores each object by its $k$ nearest-neighbor distances. If $nn_i(o)$ is the $i$th nearest neighbor,
+HilOut scores each object by its $k$ nearest-neighbor distances. If $upright("nn")_i(o)$ is the $i$th nearest neighbor,
 
 $
-  w(o) = sum_(i=1)^k dist(o, nn_i(o)).
+  w(o) = sum_(i=1)^k upright("dist")(o, upright("nn")_i(o)).
 $
 
 Objects are ranked by decreasing $w(o)$, and the top $l$ are returned as outliers. In the four-point example $A=(0,0)$, $B=(0,1)$, $C=(1,0)$, and $D=(8,8)$ with $k=2$,
@@ -444,7 +448,7 @@ Consider a $k$-dimensional grid cell $C$. Under the simplifying assumption that 
 $
   E[n(C)] = f^k n,
   quad
-  SD[n(C)] = sqrt(f^k (1-f^k) n).
+  upright("SD")[n(C)] = sqrt(f^k (1-f^k) n).
 $
 
 The sparsity coefficient is the standardized count

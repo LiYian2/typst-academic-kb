@@ -1,3 +1,7 @@
+// @title: Pattern Mining: Basic Concepts and Methods
+// @description: 事务、频繁项集、关联规则及经典模式挖掘算法。
+// @order: 30
+
 #import "../template.typ": *
 
 = Pattern Mining: Basic Concepts and Methods

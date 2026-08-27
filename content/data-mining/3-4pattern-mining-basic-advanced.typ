@@ -1,3 +1,7 @@
+// @title: Pattern Mining: Basic and Advanced Methods
+// @description: 频繁模式、关联规则、Apriori、FP-growth 与高级模式挖掘。
+// @order: 35
+
 #import "../template.typ": *
 
 = Pattern Mining: Basic and Advanced Methods
@@ -118,15 +122,15 @@ Let $F_k$ denote the set of frequent $k$-itemsets and $C_k$ the candidate $k$-it
 - scan the database to count support of the remaining candidates and retain $F_(k+1)$;
 - repeat until no candidate or frequent itemset remains.
 
-In the slides' four-transaction example with absolute `minsup = 2`, the first scan removes $D$; the second-level candidates are all pairs among $A,B,C,E$, of which $AC, BC, BE, CE$ are frequent; the only surviving 3-item candidate is $BCE$, with support 2.
+In the slides' four-transaction example with absolute `minsup = 2`, the first scan removes $D$; the second-level candidates are all pairs among $A,B,C,E$, of which $"AC", "BC", "BE", "CE"$ are frequent; the only surviving 3-item candidate is $"BCE"$, with support 2.
 
 Candidate generation itself has two stages. Suppose itemsets are listed in a fixed order. Two members of $F_(k-1)$ are joined when they share their first $k-2$ items and differ in the last item. Then the candidate is pruned if *any* $(k-1)$-subset is absent from $F_(k-1)$. For example, from
 
 $
-  F_3 = {abc, abd, acd, ace, bcd},
+  F_3 = {"abc", "abd", "acd", "ace", "bcd"},
 $
 
-self-join can form $abcd$ and $acde$. Candidate $acde$ is removed because $ade$ is not frequent, leaving $C_4 = {abcd}$.
+self-join can form $"abcd"$ and $"acde"$. Candidate $"acde"$ is removed because $"ade"$ is not frequent, leaving $C_4 = {"abcd"}$.
 
 The weakness of Apriori is not correctness but cost: long patterns may require many database passes, and intermediate candidate sets can become enormous. The remaining methods try to reduce scans, candidates, or both.
 
@@ -162,7 +166,7 @@ $
 
 This supports depth-first search without repeatedly scanning the original horizontal database. TID-list relations also carry semantic information: $t(X)=t(Y)$ means $X$ and $Y$ always occur in exactly the same transactions; $t(X) subset t(Y)$ means every transaction containing $X$ also contains $Y$.
 
-A further optimization is the *diffset*: instead of storing a child's full TID list, store what was removed relative to the parent. If $t(e)={T_10,T_20,T_30}$ and $t(ce)={T_10,T_30}$, then the diffset of $ce$ relative to $e$ is ${T_20}$. When intersections are large but differences are small, this representation can reduce memory and set-operation cost.
+A further optimization is the *diffset*: instead of storing a child's full TID list, store what was removed relative to the parent. If $t(e)={T_10,T_20,T_30}$ and $t("ce")={T_10,T_30}$, then the diffset of $"ce"$ relative to $e$ is ${T_20}$. When intersections are large but differences are small, this representation can reduce memory and set-operation cost.
 
 === FP-growth: compression plus pattern growth
 
@@ -172,9 +176,9 @@ In the course example with `min_support = 3`, the frequent items are $f:4, c:4, 
 
 Mining then uses divide and conquer. For a suffix item $x$, collect the prefix paths leading to $x$; these form the *conditional pattern base* or conditional database of $x$. Build its conditional FP-tree and recursively grow patterns ending in $x$. For example, the slides give
 
-- $p$-conditional database: $fcam:2, cb:1$, whose frequent extension includes $c$ with support 3;
-- $m$-conditional database: $fca:2, fcab:1$, which reduces to $fca:3$ after local support pruning;
-- $b$-conditional database: $fca:1, f:1, c:1$, which contains no frequent local extension at threshold 3.
+- $p$-conditional database: $"fcam":2, "cb":1$, whose frequent extension includes $c$ with support 3;
+- $m$-conditional database: $"fca":2, "fcab":1$, which reduces to $"fca":3$ after local support pruning;
+- $b$-conditional database: $"fca":1, f:1, c:1$, which contains no frequent local extension at threshold 3.
 
 A single-path conditional FP-tree is a special case: all nonempty combinations of the nodes on that path can be generated in one shot, with support determined by the minimum count along the chosen path segment. The overall FP-growth recipe is therefore: recursively construct and mine conditional trees until a tree is empty or becomes a single path.
 
@@ -239,13 +243,13 @@ $
   approx 55.56.
 $
 
-A sufficiently large value rejects independence according to the relevant $chi^2$ reference distribution. The statistic itself is nonnegative and does not encode direction; here the negative direction is inferred because the observed $BC$ count, 400, is below its independence expectation, 450.
+A sufficiently large value rejects independence according to the relevant $chi^2$ reference distribution. The statistic itself is nonnegative and does not encode direction; here the negative direction is inferred because the observed $"BC"$ count, 400, is below its independence expectation, 450.
 
 === Null transactions and null invariance
 
-A *null transaction* for $A$ and $B$ contains neither. In sparse transaction data there may be enormous numbers of such transactions. Lift and $chi^2$ can change dramatically when only the number of null transactions changes. The slides' example has counts $AB=100$, $AB^c=1000$, $A^cB=1000$, and $A^cB^c=100000$: intuitively $A$ and $B$ rarely co-occur relative to their one-sided occurrences, yet lift is about $8.44$ and $chi^2$ about $670$ because the huge null cell changes the marginal probabilities and independence baseline.
+A *null transaction* for $A$ and $B$ contains neither. In sparse transaction data there may be enormous numbers of such transactions. Lift and $chi^2$ can change dramatically when only the number of null transactions changes. The slides' example has counts $upright("AB")=100$, $upright("AB")^c=1000$, $A^c B=1000$, and $A^c B^c=100000$: intuitively $A$ and $B$ rarely co-occur relative to their one-sided occurrences, yet lift is about $8.44$ and $chi^2$ about $670$ because the huge null cell changes the marginal probabilities and independence baseline.
 
-A measure is *null invariant* if adding or removing $A^cB^c$ transactions leaves its value unchanged. Let
+A measure is *null invariant* if adding or removing $A^c B^c$ transactions leaves its value unchanged. Let
 
 $
   p = s(A union B)/s(A) = P(B|A),
@@ -328,7 +332,7 @@ A single-dimensional rule repeats one predicate, e.g. `buys(X, milk) -> buys(X, 
 
 Categorical dimensions can be handled through ordinary discrete values or data-cube-style aggregation. Numerical dimensions require a representation choice. The slides list static discretization from a predefined hierarchy, dynamic discretization from the data distribution, one-dimensional clustering followed by association mining, and deviation analysis.
 
-A quantitative rule may describe an unusual aggregate rather than item co-occurrence, for example `Gender=female -> mean wage = $7/hour` when the overall mean is $9/hour$. The left-hand side defines a subpopulation and the right-hand side describes an extraordinary behavior of that subset. Such a rule should be accepted only when a statistical test, such as a Z-test, supports the deviation with sufficiently high confidence. Subrules refine the population further, e.g. adding `South=yes` and obtaining mean wage $6.3/hour$.
+A quantitative rule may describe an unusual aggregate rather than item co-occurrence, for example `Gender=female -> mean wage = $7/hour` when the overall mean is $9 / upright("hour")$. The left-hand side defines a subpopulation and the right-hand side describes an extraordinary behavior of that subset. Such a rule should be accepted only when a statistical test, such as a Z-test, supports the deviation with sufficiently high confidence. Subrules refine the population further, e.g. adding `South=yes` and obtaining mean wage $6.3 / upright("hour")$.
 
 === Rare and negative patterns
 
@@ -405,13 +409,13 @@ Order items by descending profit. Along a prefix-growth search in that order, on
 However, this argument does not justify ordinary Apriori subset pruning. With profits $a=40$, $g=30$, and $f=-5$,
 
 $
-  "avg"(gf)=12.5,
-  quad "avg"(af)=17.5,
-  quad "avg"(ag)=35,
-  quad "avg"(agf) approx 21.7.
+  "avg"("gf")=12.5,
+  quad "avg"("af")=17.5,
+  quad "avg"("ag")=35,
+  quad "avg"("agf") approx 21.7.
 $
 
-If Apriori discards $af$ and $gf$ solely because they violate the average constraint, it will never generate $agf$, even though $agf$ satisfies it. The conversion is safe when pattern growth respects the specified order and only extends prefixes with lower-valued items; it is not a blanket replacement for Apriori's true subset anti-monotonicity.
+If Apriori discards $"af"$ and $"gf"$ solely because they violate the average constraint, it will never generate $"agf"$, even though $"agf"$ satisfies it. The conversion is safe when pattern growth respects the specified order and only extends prefixes with lower-valued items; it is not a blanket replacement for Apriori's true subset anti-monotonicity.
 
 === Data-space anti-monotonicity and recursive pruning
 
@@ -450,7 +454,7 @@ The same constraint classes later reappear in sequential-pattern mining.
 
 === Sequences, subsequences, and support
 
-A sequence is an ordered list of *elements*, and each element is an unordered set of items/events. For example, `<(ef)(ab)(df)c b>` has five ordered elements; within $(ef)$, items $e$ and $f$ are simultaneous/unordered for the basic sequence model. A sequence $alpha$ is a subsequence of sequence $beta$ if the elements of $alpha$ can be embedded into elements of $beta$ in order, with each element's itemset contained in the matched element of $beta$. The slides illustrate that `<a(bc)dc>` is a subsequence of `<a(abc)(ac)d(cf)>`.
+A sequence is an ordered list of *elements*, and each element is an unordered set of items/events. For example, `<(ef)(ab)(df)c b>` has five ordered elements; within $(e f)$, items $e$ and $f$ are simultaneous/unordered for the basic sequence model. A sequence $alpha$ is a subsequence of sequence $beta$ if the elements of $alpha$ can be embedded into elements of $beta$ in order, with each element's itemset contained in the matched element of $beta$. The slides illustrate that `<a(bc)dc>` is a subsequence of `<a(abc)(ac)d(cf)>`.
 
 Sequential-pattern mining finds all subsequences whose sequence-level support reaches `minsup`. Support counts *sequences* that contain the pattern, not the number of embeddings inside one sequence. With `min_sup = 2` in the four-sequence example, `<(ab)c>` is frequent.
 
@@ -522,7 +526,7 @@ The constraint classes transfer naturally:
 
 Sequential mining also has timing-specific constraints. An *order constraint* requires one event family to precede another. Min-gap/max-gap bounds the separation between matched elements. Max-span bounds the time from the first to last event in a pattern. Window size allows events close in time to be grouped into one logical element even if they were not recorded at exactly the same timestamp.
 
-An alternative formalism is *episode mining*. A serial episode $AB$ imposes total order, a parallel episode $A|B$ allows either order, and regular-expression-like templates combine these forms. The slide example $(A|B)C^*(DE)$ allows $A$ and $B$ in either order, any number of $C$ events, and $D,E$ in the same window, while an additional aggregate constraint may require total price above $100$.
+An alternative formalism is *episode mining*. A serial episode $"AB"$ imposes total order, a parallel episode $A|B$ allows either order, and regular-expression-like templates combine these forms. The slide example $(A|B) C^* (D E)$ allows $A$ and $B$ in either order, any number of $C$ events, and $D,E$ in the same window, while an additional aggregate constraint may require total price above $100$.
 
 == Graph Patterns and Pattern-Mining Applications
 
