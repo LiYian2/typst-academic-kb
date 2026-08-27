@@ -65,7 +65,21 @@ figure { margin: 24px 0; overflow-x: auto; }
 .math { cursor: copy; }
 .math-block { display: block; margin: 18px auto; overflow-x: auto; text-align: center; }
 .math-inline { display: inline-block; vertical-align: -.22em; }
-.math svg { max-width: 100%; }
+.math svg { max-width: 100%; color: currentColor; }
+.math svg use { fill: currentColor !important; }
+.math svg .typst-shape[fill="#000000"] { fill: currentColor !important; }
+.math svg .typst-shape[stroke="#000000"] { stroke: currentColor !important; }
+.formula-box {
+  display: table;
+  max-width: 100%;
+  margin: 18px auto;
+  padding: 8px 14px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+}
+.formula-box .math-block { margin: 0; }
 .toc ol { list-style: none; margin: 8px 0; padding: 0; }
 .toc li.depth-3 { padding-left: 12px; }
 .toc li.depth-4 { padding-left: 24px; }

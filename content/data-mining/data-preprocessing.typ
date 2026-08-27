@@ -2,6 +2,8 @@
 // @description: 数据类型、统计度量、相异度、清洗、变换、规约与降维的完整复习笔记。
 // @order: 20
 
+#let formula-box(body) = html.elem("div", attrs: (class: "formula-box",))[#body]
+
 下面这份笔记严格以你上传的 Chapter 2《Data, Measurements, and Data Preprocessing》为主线整理，覆盖课件 113 页的知识结构、公式、例题、图示含义以及方法之间的演进关系。对于课件中少数前后不完全一致之处，我会明确标注，而不是自行"修正"后隐藏掉。
 
 重要程度标记：
@@ -372,9 +374,9 @@ University：
 
 关系数据库中：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("row") = upright("object") $]) $
+#formula-box[$ upright("row") = upright("object") $]
 
-$ #box(stroke: black, inset: 3pt, [$ upright("column") = upright("attribute") $]) $
+#formula-box[$ upright("column") = upright("attribute") $]
 
 === 课件提问：What is the data object of a Crosstab?
 <课件提问what-is-the-data-object-of-a-crosstab>
@@ -626,7 +628,7 @@ Histogram / Boxplot / QQ / Scatter
 <mean>
 == Sample mean
 <sample-mean>
-$ #box(stroke: black, inset: 3pt, [$ macron(x) = 1 / n sum_(i = 1)^n x_i $]) $
+#formula-box[$ macron(x) = 1 / n sum_(i = 1)^n x_i $]
 
 其中：
 
@@ -637,7 +639,7 @@ $ #box(stroke: black, inset: 3pt, [$ macron(x) = 1 / n sum_(i = 1)^n x_i $]) $
 
 == Population mean
 <population-mean>
-$ #box(stroke: black, inset: 3pt, [$ mu = 1 / N sum_(i = 1)^N x_i $]) $
+#formula-box[$ mu = 1 / N sum_(i = 1)^N x_i $]
 
 其中：
 
@@ -647,7 +649,7 @@ $ #box(stroke: black, inset: 3pt, [$ mu = 1 / N sum_(i = 1)^N x_i $]) $
 
 == Weighted Arithmetic Mean
 <weighted-arithmetic-mean>
-$ #box(stroke: black, inset: 3pt, [$ macron(x) = frac(sum_(i = 1)^n w_i x_i, sum_(i = 1)^n w_i) $]) $
+#formula-box[$ macron(x) = frac(sum_(i = 1)^n w_i x_i, sum_(i = 1)^n w_i) $]
 
 其中：
 
@@ -714,11 +716,11 @@ $ upright("Median") = frac(x_((n/2)) + x_((n/2 + 1)), 2) $
 <grouped-data-的-median-插值公式>
 课件 p.16：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("Median") = L_1 + frac(n/2 - sum f_(upright("before")), f_(upright("median"))) times w i d t h $]) $
+#formula-box[$ upright("Median") = L_1 + frac(n/2 - sum f_(upright("before")), f_(upright("median"))) times w i d t h $]
 
 更规范写为：
 
-$ #box(stroke: black, inset: 3pt, [$ M = L + (frac(n / 2 - F, f_m)) h $]) $
+#formula-box[$ M = L + (frac(n / 2 - F, f_m)) h $]
 
 其中：
 
@@ -762,7 +764,7 @@ $ M = L + frac(n/2 - F, f_m) h $
 <mode>
 定义：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("Mode") = upright("most frequently occurring value") $]) $
+#formula-box[$ upright("Mode") = upright("most frequently occurring value") $]
 
 可能：
 
@@ -773,11 +775,11 @@ $ #box(stroke: black, inset: 3pt, [$ upright("Mode") = upright("most frequently 
 
 课件给经验关系：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("mean") - upright("mode") = 3(upright("mean") - upright("median")) $]) $
+#formula-box[$ upright("mean") - upright("mode") = 3(upright("mean") - upright("median")) $]
 
 因此：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("mode") = 3 upright("median") - 2 upright("mean") $]) $
+#formula-box[$ upright("mode") = 3 upright("median") - 2 upright("mean") $]
 
 注意：
 
@@ -799,7 +801,7 @@ $ upright("mean") = upright("median") = upright("mode") $
 <positive-skew-right-skew>
 右侧长尾：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("mode") < upright("median") < upright("mean") $]) $
+#formula-box[$ upright("mode") < upright("median") < upright("mean") $]
 
 因为大值把 mean 往右拖。
 
@@ -810,7 +812,7 @@ Skewness： $> 0$
 <negative-skew-left-skew>
 左侧长尾：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("mean") < upright("median") < upright("mode") $]) $
+#formula-box[$ upright("mean") < upright("median") < upright("mode") $]
 
 Skewness： $< 0$
 
@@ -840,11 +842,11 @@ $ P(mu - 3 sigma < X < mu + 3 sigma)approx 99.7 % $
 <sample-variance>
 课件 p.20：
 
-$ #box(stroke: black, inset: 3pt, [$ s^2 = frac(1, n - 1) sum_(i = 1)^n(x_i - macron(x))^2 $]) $
+#formula-box[$ s^2 = frac(1, n - 1) sum_(i = 1)^n(x_i - macron(x))^2 $]
 
 标准差：
 
-$ #box(stroke: black, inset: 3pt, [$ s = sqrt(s^2) $]) $
+#formula-box[$ s = sqrt(s^2) $]
 
 
 == Computational form★★★★★
@@ -885,7 +887,7 @@ $ n macron(x)^2 = 1 / n (sum_i x_i)^2 $
 
 于是：
 
-$ #box(stroke: black, inset: 3pt, [$ sum_i(x_i - macron(x))^2= sum_i x_i^2 - 1 / n(sum_i x_i)^2 $]) $
+#formula-box[$ sum_i(x_i - macron(x))^2= sum_i x_i^2 - 1 / n(sum_i x_i)^2 $]
 
 意义：
 
@@ -904,11 +906,11 @@ Can you compute it incrementally and efficiently?
 
 = 10.2 Population variance
 <population-variance>
-$ #box(stroke: black, inset: 3pt, [$ sigma^2 = 1 / N sum_(i = 1)^N(x_i - mu)^2 $]) $
+#formula-box[$ sigma^2 = 1 / N sum_(i = 1)^N(x_i - mu)^2 $]
 
 也可写：
 
-$ #box(stroke: black, inset: 3pt, [$ sigma^2 = 1 / N sum_i x_i^2 - mu^2 $]) $
+#formula-box[$ sigma^2 = 1 / N sum_i x_i^2 - mu^2 $]
 
 
 = 11. Random Variable 的 Variance★★★★★
@@ -917,22 +919,22 @@ $ #box(stroke: black, inset: 3pt, [$ sigma^2 = 1 / N sum_i x_i^2 - mu^2 $]) $
 
 若 $X$ 是 discrete：
 
-$ #box(stroke: black, inset: 3pt, [$ "Var"(X)= sum_x(x - mu)^2f(x) $]) $
+#formula-box[$ "Var"(X)= sum_x(x - mu)^2f(x) $]
 
 若 continuous：
 
-$ #box(stroke: black, inset: 3pt, [$ "Var"(X)= integral_(- oo)^(+ oo)(x - mu)^2f(x)thin d x $]) $
+#formula-box[$ "Var"(X)= integral_(- oo)^(+ oo)(x - mu)^2f(x)thin d x $]
 
 统一：
 
-$ #box(stroke: black, inset: 3pt, [$ sigma^2 = "Var"(X)= E[(X - mu)^2] $]) $
+#formula-box[$ sigma^2 = "Var"(X)= E[(X - mu)^2] $]
 
 其中： $mu = E[X]$
 
 
 == 最重要恒等式★★★★★
 <最重要恒等式>
-$ #box(stroke: black, inset: 3pt, [$ "Var"(X)= E[X^2]- E[X]^2 $]) $
+#formula-box[$ "Var"(X)= E[X^2]- E[X]^2 $]
 
 推导： $E[(X - mu)^2]$
 
@@ -948,7 +950,7 @@ $ = E[X^2]- 2 mu E[X]+ mu^2 $
 
 $ = E[X^2]- 2 mu^2 + mu^2 $
 
-$ #box(stroke: black, inset: 3pt, [$ = E[X^2]- mu^2 $]) $
+#formula-box[$ = E[X^2]- mu^2 $]
 
 
 == 一个课件细节：$1/n$ vs $1/(n - 1)$
@@ -990,16 +992,16 @@ test。
 
 = 12.1 Null Hypothesis
 <null-hypothesis>
-$ #box(stroke: black, inset: 3pt, [$ H_0 : upright("two categorical variables are independent") $]) $
+#formula-box[$ H_0 : upright("two categorical variables are independent") $]
 
 
 = 12.2 Chi-square Statistic
 <chi-square-statistic>
-$ #box(stroke: black, inset: 3pt, [$ chi^2 = sum_i frac((O_i - E_i)^2, E_i) $]) $
+#formula-box[$ chi^2 = sum_i frac((O_i - E_i)^2, E_i) $]
 
 更一般：
 
-$ #box(stroke: black, inset: 3pt, [$ chi^2 = sum_i sum_j frac((O_(i j) - E_(i j))^2, E_(i j)) $]) $
+#formula-box[$ chi^2 = sum_i sum_j frac((O_(i j) - E_(i j))^2, E_(i j)) $]
 
 其中：
 
@@ -1021,7 +1023,7 @@ $ \|O - E divides arrow.t arrow.r.double chi^2 arrow.t $
 <expected-count>
 课件通过例子给出：
 
-$ #box(stroke: black, inset: 3pt, [$ E_(i j) = frac((upright("row total")_i)(upright("column total")_j), N) $]) $
+#formula-box[$ E_(i j) = frac((upright("row total")_i)(upright("column total")_j), N) $]
 
 例如：
 
@@ -1051,7 +1053,7 @@ $ chi^2 = frac((250 - 90)^2, 90) + frac((50 - 210)^2, 210) + frac((200 - 360)^2,
 
 课件结果：
 
-$ #box(stroke: black, inset: 3pt, [$ chi^2 = 507.93 $]) $
+#formula-box[$ chi^2 = 507.93 $]
 
 非常大。
 
@@ -1077,7 +1079,7 @@ statistically correlated。
 
 则：
 
-$ #box(stroke: black, inset: 3pt, [$ d f =(r - 1)(c - 1) $]) $
+#formula-box[$ d f =(r - 1)(c - 1) $]
 
 上面的 $2 times 2$ table： $d f =(2 - 1)(2 - 1)= 1$
 
@@ -1092,7 +1094,7 @@ $ #box(stroke: black, inset: 3pt, [$ d f =(r - 1)(c - 1) $]) $
 
 = 12.6 极重要：
 <极重要>
-$ #box(stroke: black, inset: 3pt, [$ upright("Correlation does not imply causality") $]) $
+#formula-box[$ upright("Correlation does not imply causality") $]
 
 课件例子：
 
@@ -1118,7 +1120,7 @@ hospitals 导致 car theft。
 
 的 covariance：
 
-$ #box(stroke: black, inset: 3pt, [$ sigma_12 = E[(X_1 - mu_1)(X_2 - mu_2)] $]) $
+#formula-box[$ sigma_12 = E[(X_1 - mu_1)(X_2 - mu_2)] $]
 
 其中： $mu_1 = E[X_1]$
 
@@ -1127,7 +1129,7 @@ $ mu_2 = E[X_2] $
 
 == 等价公式★★★★★
 <等价公式>
-$ #box(stroke: black, inset: 3pt, [$ sigma_12 = E[X_1 X_2]- E[X_1]E[X_2] $]) $
+#formula-box[$ sigma_12 = E[X_1 X_2]- E[X_1]E[X_2] $]
 
 推导： $E[(X_1 - mu_1)(X_2 - mu_2)]$
 
@@ -1143,7 +1145,7 @@ $ = E[X_1 X_2]- mu_2 E[X_1]- mu_1 E[X_2]+ mu_1 mu_2 $
 <sample-covariance>
 课件采用：
 
-$ #box(stroke: black, inset: 3pt, [$ hat(sigma)_12 = 1 / n sum_(i = 1)^n(x_(i 1) - hat(mu)_1)(x_(i 2) - hat(mu)_2) $]) $
+#formula-box[$ hat(sigma)_12 = 1 / n sum_(i = 1)^n(x_(i 1) - hat(mu)_1)(x_(i 2) - hat(mu)_2) $]
 
 其中：
 
@@ -1153,7 +1155,7 @@ $ #box(stroke: black, inset: 3pt, [$ hat(sigma)_12 = 1 / n sum_(i = 1)^n(x_(i 1)
 
 Variance 是 covariance 的特殊情况：
 
-$ #box(stroke: black, inset: 3pt, [$ hat(sigma)_11 = 1 / n sum_i(x_(i 1) - hat(mu)_1)^2 $]) $
+#formula-box[$ hat(sigma)_11 = 1 / n sum_i(x_(i 1) - hat(mu)_1)^2 $]
 
 
 == Interpretation
@@ -1179,11 +1181,11 @@ $ #box(stroke: black, inset: 3pt, [$ hat(sigma)_11 = 1 / n sum_i(x_(i 1) - hat(m
 <covariance-0-是否-independent>
 非常重要：
 
-$ #box(stroke: black, inset: 3pt, [$ X_1 perp X_2 arrow.r.double "Cov"(X_1,X_2)= 0 $]) $
+#formula-box[$ X_1 perp X_2 arrow.r.double "Cov"(X_1,X_2)= 0 $]
 
 但是反过来：
 
-$ #box(stroke: black, inset: 3pt, [$ "Cov"(X_1,X_2)= 0 ⇏ X_1 perp X_2 $]) $
+#formula-box[$ "Cov"(X_1,X_2)= 0 ⇏ X_1 perp X_2 $]
 
 除非加入特殊条件，例如：
 
@@ -1241,7 +1243,7 @@ $ sigma_12 = E[X_1 X_2]- E[X_1]E[X_2] $
 
 课件得到：
 
-$ #box(stroke: black, inset: 3pt, [$ sigma_12 = 4 $]) $
+#formula-box[$ sigma_12 = 4 $]
 
 因此： $sigma_12 > 0$
 
@@ -1258,7 +1260,7 @@ magnitude 依赖 variables 的 units / scale。
 
 于是出现 standardized covariance：
 
-$ #box(stroke: black, inset: 3pt, [$ rho_12 = frac(sigma_12, sigma_1 sigma_2) $]) $
+#formula-box[$ rho_12 = frac(sigma_12, sigma_1 sigma_2) $]
 
 其中：
 
@@ -1269,11 +1271,11 @@ $ #box(stroke: black, inset: 3pt, [$ rho_12 = frac(sigma_12, sigma_1 sigma_2) $]
 
 == Sample correlation
 <sample-correlation>
-$ #box(stroke: black, inset: 3pt, [$ hat(rho)_12 = frac(sum_(i = 1)^n(x_(i 1) - hat(mu)_1)(x_(i 2) - hat(mu)_2), sqrt(sum_(i = 1)^n(x_(i 1) - hat(mu)_1)^2) sqrt(sum_(i = 1)^n(x_(i 2) - hat(mu)_2)^2)) $]) $
+#formula-box[$ hat(rho)_12 = frac(sum_(i = 1)^n(x_(i 1) - hat(mu)_1)(x_(i 2) - hat(mu)_2), sqrt(sum_(i = 1)^n(x_(i 1) - hat(mu)_1)^2) sqrt(sum_(i = 1)^n(x_(i 2) - hat(mu)_2)^2)) $]
 
 范围：
 
-$ #box(stroke: black, inset: 3pt, [$ - 1 lt.eq rho lt.eq 1 $]) $
+#formula-box[$ - 1 lt.eq rho lt.eq 1 $]
 
 含义：
 
@@ -1308,17 +1310,17 @@ $ bold(mu) = mat(delim: "[", mu_1; mu_2) $
 
 covariance matrix：
 
-$ #box(stroke: black, inset: 3pt, [$ Sigma = E[(upright(bold(X)) - bold(mu))(upright(bold(X)) - bold(mu))^T] $]) $
+#formula-box[$ Sigma = E[(upright(bold(X)) - bold(mu))(upright(bold(X)) - bold(mu))^T] $]
 
 二维：
 
-$ #box(stroke: black, inset: 3pt, [$ Sigma = mat(delim: "[", sigma_1^2, sigma_12; sigma_21, sigma_2^2) $]) $
+#formula-box[$ Sigma = mat(delim: "[", sigma_1^2, sigma_12; sigma_21, sigma_2^2) $]
 
 由于： $sigma_12 = sigma_21$
 
 所以 covariance matrix：
 
-$ #box(stroke: black, inset: 3pt, [$ Sigma = Sigma^T $]) $
+#formula-box[$ Sigma = Sigma^T $]
 
 是 symmetric matrix。
 
@@ -1352,11 +1354,11 @@ $ Q_3 = 75^(t h) med p e r c e n t i l e $
 
 Interquartile range：
 
-$ #box(stroke: black, inset: 3pt, [$ I Q R = Q_3 - Q_1 $]) $
+#formula-box[$ I Q R = Q_3 - Q_1 $]
 
 Five-number summary：
 
-$ #box(stroke: black, inset: 3pt, [$ min,Q_1,upright("median"),Q_3,max $]) $
+#formula-box[$ min,Q_1,upright("median"),Q_3,max $]
 
 
 == Outlier rule
@@ -1369,11 +1371,11 @@ higher/lower than $1.5 times I Q R$。
 
 通常理解为：
 
-$ #box(stroke: black, inset: 3pt, [$ x < Q_1 - 1.5 I Q R $]) $
+#formula-box[$ x < Q_1 - 1.5 I Q R $]
 
 或者：
 
-$ #box(stroke: black, inset: 3pt, [$ x > Q_3 + 1.5 I Q R $]) $
+#formula-box[$ x > Q_3 + 1.5 I Q R $]
 
 即视作 potential outlier。
 
@@ -1556,7 +1558,7 @@ p.44 展示多个"uncorrelated"点云。
 
 结论：
 
-$ #box(stroke: black, inset: 3pt, [$ rho approx 0 eq.not upright("no structure") $]) $
+#formula-box[$ rho approx 0 eq.not upright("no structure") $]
 
 Correlation 本质主要描述：
 
@@ -1669,7 +1671,7 @@ $ Delta = mat(delim: "[", 0, dots.h.c; d(2,1), 0, ; dots.v, dots.v, dots.down) $
 <minkowski-distance>
 Numeric data 的统一 family：
 
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= (sum_(f = 1)^l \| x_(i f) - x_(j f) \|^p)^(1/p) $]) $
+#formula-box[$ d(i,j)= (sum_(f = 1)^l \| x_(i f) - x_(j f) \|^p)^(1/p) $]
 
 其中：
 
@@ -1699,7 +1701,7 @@ $ d(i,j)= d(j,i) $
 
 === Triangle inequality
 <triangle-inequality>
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)lt.eq d(i,k)+ d(k,j) $]) $
+#formula-box[$ d(i,j)lt.eq d(i,k)+ d(k,j) $]
 
 则属于 metric。
 
@@ -1718,7 +1720,7 @@ set differences 可以 nonmetric。
 <minkowski-special-cases>
 == $p = 1$：Manhattan
 <p1manhattan>
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= sum_f divides x_(i f) - x_(j f)\| $]) $
+#formula-box[$ d(i,j)= sum_f divides x_(i f) - x_(j f)\| $]
 
 名称：
 
@@ -1746,14 +1748,14 @@ difference positions 数量即 Hamming distance。
 
 == $p = 2$：Euclidean
 <p2euclidean>
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= sqrt(sum_f(x_(i f) - x_(j f))^2) $]) $
+#formula-box[$ d(i,j)= sqrt(sum_f(x_(i f) - x_(j f))^2) $]
 
 即 $L_2$。
 
 
 == $p arrow.r oo$：Chebyshev
 <prightarrowinftychebyshev>
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= max_f\|x_(i f) - x_(j f)\| $]) $
+#formula-box[$ d(i,j)= max_f\|x_(i f) - x_(j f)\| $]
 
 也叫：
 
@@ -1866,7 +1868,7 @@ mismatches： $r + s$
 
 所以：
 
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= frac(r + s, q + r + s + t) $]) $
+#formula-box[$ d(i,j)= frac(r + s, q + r + s + t) $]
 
 
 == Asymmetric Binary★★★★★
@@ -1877,14 +1879,14 @@ $ #box(stroke: black, inset: 3pt, [$ d(i,j)= frac(r + s, q + r + s + t) $]) $
 
 得到：
 
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= frac(r + s, q + r + s) $]) $
+#formula-box[$ d(i,j)= frac(r + s, q + r + s) $]
 
 
 = 31. Jaccard Similarity★★★★★
 <jaccard-similarity>
 对 asymmetric binary：
 
-$ #box(stroke: black, inset: 3pt, [$ s i m_(J a c c a r d)(i,j)= frac(q, q + r + s) $]) $
+#formula-box[$ s i m_(J a c c a r d)(i,j)= frac(q, q + r + s) $]
 
 直觉：
 
@@ -1932,11 +1934,11 @@ $ N arrow.r 0 $
 
 结果：
 
-$ d(upright("Jack,Mary"))= frac(0 + 1, 2 + 0 + 1) = #box(stroke: black, inset: 3pt, [$ 0.33 $]) $
+$ d(upright("Jack,Mary"))= frac(0 + 1, 2 + 0 + 1) = 0.33 $
 
-$ d(upright("Jack,Jim"))= frac(1 + 1, 1 + 1 + 1) = #box(stroke: black, inset: 3pt, [$ 0.67 $]) $
+$ d(upright("Jack,Jim"))= frac(1 + 1, 1 + 1 + 1) = 0.67 $
 
-$ d(upright("Jim,Mary"))= frac(1 + 2, 1 + 1 + 2) = #box(stroke: black, inset: 3pt, [$ 0.75 $]) $
+$ d(upright("Jim,Mary"))= frac(1 + 2, 1 + 1 + 2) = 0.75 $
 
 因此：
 
@@ -1954,7 +1956,7 @@ Jack 与 Mary 最相似。
 
 则：
 
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= frac(p - m, p) $]) $
+#formula-box[$ d(i,j)= frac(p - m, p) $]
 
 即：
 
@@ -1994,7 +1996,7 @@ levels。
 
 === Step 2：映射到 $[0,1]$
 <step-2映射到-01>
-$ #box(stroke: black, inset: 3pt, [$ z_(i f) = frac(r_(i f) - 1, M_f - 1) $]) $
+#formula-box[$ z_(i f) = frac(r_(i f) - 1, M_f - 1) $]
 
 例如：
 
@@ -2038,7 +2040,7 @@ $ d(upright("junior,senior"))= 1 / 3 $
 
 课件公式：
 
-$ #box(stroke: black, inset: 3pt, [$ d(i,j)= frac(sum_(f = 1)^p w_(i j)^((f)) d_(i j)^((f)), sum_(f = 1)^p w_(i j)^((f))) $]) $
+#formula-box[$ d(i,j)= frac(sum_(f = 1)^p w_(i j)^((f)) d_(i j)^((f)), sum_(f = 1)^p w_(i j)^((f))) $]
 
 其中：
 
@@ -2099,7 +2101,7 @@ directions / angles。
 
 == Formula
 <formula>
-$ #box(stroke: black, inset: 3pt, [$ cos(d_1,d_2)= frac(d_1 dot.op d_2, parallel d_1 parallel parallel d_2 parallel) $]) $
+#formula-box[$ cos(d_1,d_2)= frac(d_1 dot.op d_2, parallel d_1 parallel parallel d_2 parallel) $]
 
 其中：
 
@@ -2120,7 +2122,7 @@ $ = 5(3)+ 3(2)+ 2(1)+ 2(1) $
 
 $ = 15 + 6 + 2 + 2 $
 
-$ #box(stroke: black, inset: 3pt, [$ = 25 $]) $
+#formula-box[$ = 25 $]
 
 课件给出的数值有一处算术错误： $parallel d_1 parallel = 6.481$
 
@@ -2130,7 +2132,7 @@ $ parallel d_2 parallel = 4 $
 
 $ cos(d_1,d_2)= frac(25, sqrt(42) dot.op 4) $
 
-$ #box(stroke: black, inset: 3pt, [$ approx 0.965 $]) $
+#formula-box[$ approx 0.965 $]
 
 高度相似。
 
@@ -2164,12 +2166,12 @@ probability distributions
 
 = 37.1 Discrete KL
 <discrete-kl>
-$ #box(stroke: black, inset: 3pt, [$ D_(K L)(P parallel Q)= sum_(x in X) p(x)ln frac(p(x), q(x)) $]) $
+#formula-box[$ D_(K L)(P parallel Q)= sum_(x in X) p(x)ln frac(p(x), q(x)) $]
 
 
 = 37.2 Continuous KL
 <continuous-kl>
-$ #box(stroke: black, inset: 3pt, [$ D_(K L)(P parallel Q)= integral_(- oo)^(+ oo) p(x)ln frac(p(x), q(x)) thin d x $]) $
+#formula-box[$ D_(K L)(P parallel Q)= integral_(- oo)^(+ oo) p(x)ln frac(p(x), q(x)) thin d x $]
 
 解释： $D_(K L)(P parallel Q)$
 
@@ -2204,7 +2206,7 @@ KL divergence：
 <kl-不是-metric>
 因为：
 
-$ #box(stroke: black, inset: 3pt, [$ D_(K L)(P parallel Q)eq.not D_(K L)(Q parallel P) $]) $
+#formula-box[$ D_(K L)(P parallel Q)eq.not D_(K L)(Q parallel P) $]
 
 通常 asymmetric。
 
@@ -2216,7 +2218,7 @@ triangle inequality。
 
 因此：
 
-$ #box(stroke: black, inset: 3pt, [$ K L med d i v e r g e n c e eq.not d i s t a n c e med m e t r i c $]) $
+#formula-box[$ K L med d i v e r g e n c e eq.not d i s t a n c e med m e t r i c $]
 
 虽然常用于度量 distributions difference。
 
@@ -2225,11 +2227,11 @@ $ #box(stroke: black, inset: 3pt, [$ K L med d i v e r g e n c e eq.not d i s t 
 <kl-non-negativity>
 课件：
 
-$ #box(stroke: black, inset: 3pt, [$ D_(K L)(P parallel Q)gt.eq 0 $]) $
+#formula-box[$ D_(K L)(P parallel Q)gt.eq 0 $]
 
 而：
 
-$ #box(stroke: black, inset: 3pt, [$ D_(K L)(P parallel Q)= 0 arrow.l.r.double P = Q $]) $
+#formula-box[$ D_(K L)(P parallel Q)= 0 arrow.l.r.double P = Q $]
 
 
 = 37.6 $p = 0$ 或 $q = 0$ 怎么办？★★★★★
@@ -2238,7 +2240,7 @@ $ #box(stroke: black, inset: 3pt, [$ D_(K L)(P parallel Q)= 0 arrow.l.r.double P
 
 则：
 
-$ #box(stroke: black, inset: 3pt, [$ lim_(p arrow.r 0) p log p = 0 $]) $
+#formula-box[$ lim_(p arrow.r 0) p log p = 0 $]
 
 所以 $p(x)= 0$ 项贡献为 0。
 
@@ -2253,7 +2255,7 @@ $ log frac(p(x), 0) arrow.r oo $
 
 因此：
 
-$ #box(stroke: black, inset: 3pt, [$ D_(K L)(P parallel Q)= oo $]) $
+#formula-box[$ D_(K L)(P parallel Q)= oo $]
 
 直觉：
 
@@ -2717,7 +2719,7 @@ detect + correct errors。
 <migration-integration>
 ETL：
 
-$ #box(stroke: black, inset: 3pt, [$ E x t r a c t i o n arrow.r T r a n s f o r m a t i o n arrow.r L o a d i n g $]) $
+#formula-box[$ E x t r a c t i o n arrow.r T r a n s f o r m a t i o n arrow.r L o a d i n g $]
 
 整个 process：
 
@@ -2888,7 +2890,7 @@ Euclidean distance 中 Income 会主导。
 
 公式：
 
-$ #box(stroke: black, inset: 3pt, [$ v' = frac(v - m i n_A, m a x_A - m i n_A)(n e w\_m a x_A - n e w\_m i n_A)+ n e w\_m i n_A $]) $
+#formula-box[$ v' = frac(v - m i n_A, m a x_A - m i n_A)(n e w\_m a x_A - n e w\_m i n_A)+ n e w\_m i n_A $]
 
 === 推导直觉
 <推导直觉-1>
@@ -2930,7 +2932,7 @@ $ frac(73600 - 12000, 98000 - 12000) = 0.716 $
 
 = 51.2 Z-score Normalization★★★★★
 <z-score-normalization>
-$ #box(stroke: black, inset: 3pt, [$ v' = frac(v - mu_A, sigma_A) $]) $
+#formula-box[$ v' = frac(v - mu_A, sigma_A) $]
 
 其中：
 
@@ -2961,16 +2963,16 @@ $ sigma = 16000 $
 
 $ v' = frac(73600 - 54000, 16000) $
 
-$ #box(stroke: black, inset: 3pt, [$ = 1.225 $]) $
+#formula-box[$ = 1.225 $]
 
 
 = 51.3 Decimal Scaling
 <decimal-scaling>
-$ #box(stroke: black, inset: 3pt, [$ v' = v / 10^j $]) $
+#formula-box[$ v' = v / 10^j $]
 
 其中 $j$ 为满足：
 
-$ #box(stroke: black, inset: 3pt, [$ max(\|v'\|)< 1 $]) $
+#formula-box[$ max(\|v'\|)< 1 $]
 
 的最小 integer。
 
@@ -3067,7 +3069,7 @@ class distributions。
 
 从 p.84 的具体机制看：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("Chi-merge 是 supervised") $]) $
+#formula-box[$ upright("Chi-merge 是 supervised") $]
 
 更符合其描述。
 
@@ -3084,7 +3086,7 @@ $ #box(stroke: black, inset: 3pt, [$ upright("Chi-merge 是 supervised") $]) $
 
 则：
 
-$ #box(stroke: black, inset: 3pt, [$ W = frac(B - A, N) $]) $
+#formula-box[$ W = frac(B - A, N) $]
 
 每个 interval width 相同。
 
@@ -3187,7 +3189,7 @@ boundaries fixed by frequency。
 
 二者共同问题：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("inflexible") $]) $
+#formula-box[$ upright("inflexible") $]
 
 它们不真正理解 natural groups。
 
@@ -3255,7 +3257,7 @@ until stopping condition。
 
 特点：
 
-$ #box(stroke: black, inset: 3pt, [$ s u p e r v i s e d + b o t t o m upright("-") u p $]) $
+#formula-box[$ s u p e r v i s e d + b o t t o m upright("-") u p $]
 
 
 = 59. Concept Hierarchy★★★★☆
@@ -3416,7 +3418,7 @@ mining complexity 可以变成 sub-linear in $N$。
 
 核心：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("representative subset") $]) $
+#formula-box[$ upright("representative subset") $]
 
 
 = 63.1 Simple Random Sampling
@@ -3594,7 +3596,7 @@ model parameters
 
 = 66.1 Linear Regression★★★★★
 <linear-regression>
-$ #box(stroke: black, inset: 3pt, [$ Y = w X + b $]) $
+#formula-box[$ Y = w X + b $]
 
 其中：
 
@@ -3615,7 +3617,7 @@ least squares。
 
 标准 least-squares objective 可写：
 
-$ #box(stroke: black, inset: 3pt, [$ min_(w,b) sum_(i = 1)^n [y_i - ( w x_i + b )]^2 $]) $
+#formula-box[$ min_(w,b) sum_(i = 1)^n [y_i - ( w x_i + b )]^2 $]
 
 这条 objective 是对"least squares"的数学展开。
 
@@ -3654,7 +3656,7 @@ fitted by successive approximations。
 <multiple-regression>
 课件：
 
-$ #box(stroke: black, inset: 3pt, [$ Y = b_0 + b_1 X_1 + b_2 X_2 $]) $
+#formula-box[$ Y = b_0 + b_1 X_1 + b_2 X_2 $]
 
 更一般：
 
@@ -3772,7 +3774,7 @@ Curse of dimensionality：
 <number-of-subspaces-exponential>
 若每个 feature 可选 / 不选：
 
-$ #box(stroke: black, inset: 3pt, [$ 2^d $]) $
+#formula-box[$ 2^d $]
 
 possible subsets。
 
@@ -3802,7 +3804,7 @@ possible subsets。
 
 PCA 就属于：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("feature extraction") $]) $
+#formula-box[$ upright("feature extraction") $]
 
 
 = 72. PCA★★★★★
@@ -3855,13 +3857,13 @@ variance 很小。
 <pca-与-covariance-matrix>
 课件核心：
 
-$ #box(stroke: black, inset: 3pt, [$ A v = lambda v $]) $
+#formula-box[$ A v = lambda v $]
 
 这里的 $A$ 实际是 covariance matrix： $Sigma$
 
 因此：
 
-$ #box(stroke: black, inset: 3pt, [$ Sigma v = lambda v $]) $
+#formula-box[$ Sigma v = lambda v $]
 
 其中：
 
@@ -3893,7 +3895,7 @@ centered data 有： $E[X X^T]= Sigma$
 
 所以：
 
-$ #box(stroke: black, inset: 3pt, [$ "Var"(z)= v^T Sigma v $]) $
+#formula-box[$ "Var"(z)= v^T Sigma v $]
 
 目标： $max_v v^T Sigma v$
 
@@ -3907,7 +3909,7 @@ $ L(v,lambda)= v^T Sigma v - lambda(v^T v - 1) $
 
 得到：
 
-$ #box(stroke: black, inset: 3pt, [$ Sigma v = lambda v $]) $
+#formula-box[$ Sigma v = lambda v $]
 
 而此时：
 
@@ -3963,7 +3965,7 @@ $ V_k =[v_1,dots.h,v_k] $
 <step-6>
 project data：
 
-$ #box(stroke: black, inset: 3pt, [$ Z =(X - mu)V_k $]) $
+#formula-box[$ Z =(X - mu)V_k $]
 
 这里 $mu$ 是每列均值。只有在前一步已经把 $X$ 明确记作中心化后的数据矩阵时，才可简写为 $Z = X V_k$；中心化不是可随意省略的 convention。
 
@@ -4015,7 +4017,7 @@ $ x = a_1 v_1 + a_2 v_2 + dots.h.c + a_d v_d $
 
 近似：
 
-$ #box(stroke: black, inset: 3pt, [$ x approx sum_(j = 1)^k a_j v_j $]) $
+#formula-box[$ x approx sum_(j = 1)^k a_j v_j $]
 
 因此只存： $a_1,dots.h,a_k$
 
@@ -4088,7 +4090,7 @@ Student ID。
 
 所以：
 
-$ #box(stroke: black, inset: 3pt, [$ 2^d $]) $
+#formula-box[$ 2^d $]
 
 possible subsets。
 
@@ -4211,7 +4213,7 @@ reject。
 
 最终：
 
-$ #box(stroke: black, inset: 3pt, [$ { S t u d y H o u r s,A t t e n d a n c e } $]) $
+#formula-box[$ { S t u d y H o u r s,A t t e n d a n c e } $]
 
 
 = 83. Feature Generation★★★★☆
@@ -4304,7 +4306,7 @@ preserve pairwise proximity / neighborhood structure。
 
 即：
 
-$ #box(stroke: black, inset: 3pt, [$ P approx hat(P) $]) $
+#formula-box[$ P approx hat(P) $]
 
 
 = 86. Kernel PCA★★★★★
@@ -4317,7 +4319,7 @@ $ #box(stroke: black, inset: 3pt, [$ P approx hat(P) $]) $
 
 构造：
 
-$ #box(stroke: black, inset: 3pt, [$ P(i,j)= kappa(x_i,x_j) $]) $
+#formula-box[$ P(i,j)= kappa(x_i,x_j) $]
 
 其中： $kappa$
 
@@ -4334,7 +4336,7 @@ top-$k$ eigenvectors/eigenvalues。
 <polynomial-kernel>
 课件：
 
-$ #box(stroke: black, inset: 3pt, [$ kappa(x_i,x_j)=(1 + x_i^T x_j)^p $]) $
+#formula-box[$ kappa(x_i,x_j)=(1 + x_i^T x_j)^p $]
 
 其中：
 
@@ -4352,7 +4354,7 @@ higher-order interaction features。
 <rbf-kernel>
 课件：
 
-$ #box(stroke: black, inset: 3pt, [$ kappa(x_i,x_j)= exp (- frac(parallel x_i - x_j parallel^2, 2 sigma^2)) $]) $
+#formula-box[$ kappa(x_i,x_j)= exp (- frac(parallel x_i - x_j parallel^2, 2 sigma^2)) $]
 
 其中：
 
@@ -4372,11 +4374,11 @@ $ #box(stroke: black, inset: 3pt, [$ kappa(x_i,x_j)= exp (- frac(parallel x_i - 
 <kpca-preserving-proximity>
 课件给 Step 2：
 
-$ #box(stroke: black, inset: 3pt, [$ min sum_(i,j) (P ( i , j ) - hat(P) ( i , j ))^2 $]) $
+#formula-box[$ min sum_(i,j) (P ( i , j ) - hat(P) ( i , j ))^2 $]
 
 也写作：
 
-$ #box(stroke: black, inset: 3pt, [$ min parallel P - hat(P) parallel_(F r o)^2 $]) $
+#formula-box[$ min parallel P - hat(P) parallel_(F r o)^2 $]
 
 其中：
 
@@ -4395,7 +4397,7 @@ $ parallel A parallel_F^2 = sum_(i j) A_(i j)^2 $
 <linear-kernel-为什么退化到-pca>
 如果：
 
-$ #box(stroke: black, inset: 3pt, [$ kappa(x_i,x_j)= x_i^T x_j $]) $
+#formula-box[$ kappa(x_i,x_j)= x_i^T x_j $]
 
 没有 nonlinear transformation。
 
@@ -4403,14 +4405,14 @@ $ #box(stroke: black, inset: 3pt, [$ kappa(x_i,x_j)= x_i^T x_j $]) $
 
 课件：
 
-$ #box(stroke: black, inset: 3pt, [$ K P C A arrow.r s t a n d a r d med P C A $]) $
+#formula-box[$ K P C A arrow.r s t a n d a r d med P C A $]
 
 
 = 91. SNE★★★★★
 <sne>
 SNE：
 
-$ #box(stroke: black, inset: 3pt, [$ S t o c h a s t i c med N e i g h b o r h o o d med E m b e d d i n g $]) $
+#formula-box[$ S t o c h a s t i c med N e i g h b o r h o o d med E m b e d d i n g $]
 
 它不再把 proximity 当普通 real-valued similarity，而是：
 
@@ -4423,11 +4425,11 @@ $ #box(stroke: black, inset: 3pt, [$ S t o c h a s t i c med N e i g h b o r h o
 <high-dimensional-proximity>
 课件定义：
 
-$ #box(stroke: black, inset: 3pt, [$ d_(i j)^2 = frac(parallel x_i - x_j parallel^2, 2 sigma_i^2) $]) $
+#formula-box[$ d_(i j)^2 = frac(parallel x_i - x_j parallel^2, 2 sigma_i^2) $]
 
 然后：
 
-$ #box(stroke: black, inset: 3pt, [$ P(i,j)= frac(e^(- d_(i j)^2), sum_(l = 1,l eq.not i)^n e^(- d_(i l)^2)) $]) $
+#formula-box[$ P(i,j)= frac(e^(- d_(i j)^2), sum_(l = 1,l eq.not i)^n e^(- d_(i l)^2)) $]
 
 含义：
 
@@ -4467,11 +4469,11 @@ $ hat(P)(i,j) $
 
 Objective：
 
-$ #box(stroke: black, inset: 3pt, [$ min_(hat(X)) sum_(i = 1)^n D_(K L)(P_i parallel hat(P)_i) $]) $
+#formula-box[$ min_(hat(X)) sum_(i = 1)^n D_(K L)(P_i parallel hat(P)_i) $]
 
 课件写作：
 
-$ #box(stroke: black, inset: 3pt, [$ hat(x)_i = arg min_(hat(x)_i) sum_(i = 1)^n D_(K L)(P_i parallel hat(P)_i) $]) $
+#formula-box[$ hat(x)_i = arg min_(hat(x)_i) sum_(i = 1)^n D_(K L)(P_i parallel hat(P)_i) $]
 
 更严格地说应理解为：
 
@@ -4633,7 +4635,7 @@ between-cluster proximity。
 
 好的 representation 应满足：
 
-$ #box(stroke: black, inset: 3pt, [$ P_(upright("within")) gt.double P_(upright("between")) $]) $
+#formula-box[$ P_(upright("within")) gt.double P_(upright("between")) $]
 
 课件指出：
 
@@ -4899,7 +4901,7 @@ $ min sum_i D_(K L)(P_i parallel hat(P)_i) $
 
 第二，p.80 把 correlation/$chi^2$ discretization 写成 "unsupervised"，但 p.84 的 Chi-Merge 明确写 "supervised: use class information"，并且其算法确实需要比较 neighboring intervals 的 class distributions。因此按方法定义和 p.84，应理解为：
 
-$ #box(stroke: black, inset: 3pt, [$ upright("Chi-Merge = supervised bottom-up discretization") $]) $
+#formula-box[$ upright("Chi-Merge = supervised bottom-up discretization") $]
 
 
 = 100. 最后用一句话串起整个 Chapter★★★★★
@@ -4918,7 +4920,7 @@ $ #box(stroke: black, inset: 3pt, [$ upright("Chi-Merge = supervised bottom-up d
 
 即：
 
-$ #box(stroke: black, inset: 3pt, [$ R e p r e s e n t a t i o n arrow.r U n d e r s t a n d i n g arrow.r C o m p a r i s o n arrow.r C l e a n i n g arrow.r T r a n s f o r m a t i o n arrow.r R e d u c t i o n arrow.r R e p r e s e n t a t i o n med L e a r n i n g $]) $
+#formula-box[$ R e p r e s e n t a t i o n arrow.r U n d e r s t a n d i n g arrow.r C o m p a r i s o n arrow.r C l e a n i n g arrow.r T r a n s f o r m a t i o n arrow.r R e d u c t i o n arrow.r R e p r e s e n t a t i o n med L e a r n i n g $]
 
 这就是整个 Chapter 2 的底层架构。
 
@@ -4975,7 +4977,7 @@ Pearson $chi^2$ 的拒绝条件要写 #strong[显著性水平 $alpha$]；$alpha 
 <pca-必背>
 + 对数据中心化（必要；尺度差异大时通常再 standardize）。
 + 求 covariance matrix / SVD，取最大 eigenvalues 对应的 $V_k$。
-+ 投影：$#box(stroke: black, inset: 3pt, [$ Z =(X - mu)V_k $])$；只有 $X$ 已中心化时才可写 $X V_k$。
++ 投影：$Z =(X - mu)V_k$；只有 $X$ 已中心化时才可写 $X V_k$。
 + PCA 是线性、最大方差的表示法；不要求 Gaussian 或类别线性可分，也不保证保留分类边界。
 
 == 已确认的课件陷阱
