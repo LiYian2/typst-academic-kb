@@ -1,0 +1,8 @@
+# Directory containing the generated HTML files.
+site: public
+
+# Keep the generated search bundle below /pagefind/.
+output_path: public/pagefind
+
+# Index Chinese text without forcing English stemming rules.
+force_language: zh
